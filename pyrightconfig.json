@@ -1,0 +1,7 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.11",
+  "include": ["polydata", "tests", "scripts"],
+  "exclude": ["**/__pycache__", ".venv"]
+}

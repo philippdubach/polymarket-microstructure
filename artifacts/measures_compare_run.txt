@@ -1,0 +1,29 @@
+window: 2026-03-10 00:00:00+00:00 -> 2026-03-11 00:00:00+00:00
+archive files in window: 25
+loading on-chain fills for 3 tokens…
+  aggregated: 143,999  in-window: 4,794
+0x9352c559e9648a… orderbook events: 156,707  onchain trades: 1,808
+0x0b4cc3b739e1df… orderbook events: 40,593  onchain trades: 2,188
+/Users/philippdubach/Desktop/poly-data-paper/.venv/lib/python3.11/site-packages/statsmodels/regression/linear_model.py:1782: RuntimeWarning: invalid value encountered in scalar divide
+  return 1 - self.ssr/self.centered_tss
+0xbb4d51e6364066… orderbook events: 246,598  onchain trades: 798
+
+wrote 54 rows to artifacts/measures_compare.parquet
+shape: (12, 3)
+┌─────────────────────┬──────────────┬────────┐
+│ measure             ┆ trade_source ┆ n_rows │
+│ ---                 ┆ ---          ┆ ---    │
+│ str                 ┆ str          ┆ u32    │
+╞═════════════════════╪══════════════╪════════╡
+│ abdi_ranaldo_spread ┆ onchain      ┆ 3      │
+│ abdi_ranaldo_spread ┆ strict       ┆ 3      │
+│ amihud_illiquidity  ┆ onchain      ┆ 3      │
+│ amihud_illiquidity  ┆ strict       ┆ 3      │
+│ effective_spread    ┆ onchain      ┆ 3      │
+│ …                   ┆ …            ┆ …      │
+│ kyle_lambda         ┆ strict       ┆ 3      │
+│ realized_spread     ┆ onchain      ┆ 12     │
+│ realized_spread     ┆ strict       ┆ 12     │
+│ roll_implied_spread ┆ onchain      ┆ 3      │
+│ roll_implied_spread ┆ strict       ┆ 3      │
+└─────────────────────┴──────────────┴────────┘

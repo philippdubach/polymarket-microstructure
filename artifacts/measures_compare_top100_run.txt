@@ -1,0 +1,21 @@
+window: 2026-03-07 00:00:00+00:00 -> 2026-03-14 00:00:00+00:00
+top-stratum markets: 100
+[1/100] 0x03bc660a4df5… events=0 trades=15,917
+[10/100] 0x119fa68324e6… events=0 trades=0
+[20/100] 0x337e5c84b836… events=0 trades=6,208
+  checkpoint: 450 rows
+[30/100] 0x4bdaa5093741… events=954 trades=4,741
+/Users/philippdubach/Desktop/poly-data-paper/.venv/lib/python3.11/site-packages/statsmodels/regression/linear_model.py:1782: RuntimeWarning: invalid value encountered in scalar divide
+  return 1 - self.ssr/self.centered_tss
+[40/100] 0x63a3d1cfebf7… events=0 trades=12,945
+[50/100] 0x70909f0ba825… events=0 trades=0
+  checkpoint: 900 rows
+[60/100] 0x7cb525e83172… events=0 trades=1,274
+[70/100] 0xbb4d51e63640… events=827,866 trades=8,141
+  checkpoint: 1,350 rows
+[80/100] 0xd32f73b7d90c… events=0 trades=10,909
+[90/100] 0xe4b9a52d2bb3… events=131,873 trades=6,653
+[100/100] 0xffff6c984d7a… events=1,079,468 trades=1,762
+  checkpoint: 1,800 rows
+
+wrote 1,800 rows to artifacts/measures_compare_top100.parquet

@@ -1,0 +1,47 @@
+window: 2026-02-28 00:00:00+00:00 -> 2026-03-28 00:00:00+00:00
+panel markets resolved to tokens: 600/600
+archive files in window: 673
+using existing shard cache: data/panel_orderbook_shards (673 shards)
+using cached on-chain agg: data/panel_onchain_cache.parquet
+  on-chain in window: 2,446,114
+[1/600] 0x0024177643ef… events=279 trades=415
+/Users/philippdubach/Desktop/poly-data-paper/.venv/lib/python3.11/site-packages/statsmodels/regression/linear_model.py:1782: RuntimeWarning: invalid value encountered in scalar divide
+  return 1 - self.ssr/self.centered_tss
+[25/600] 0x092471f61558… events=8,392 trades=2,760
+[50/600] 0x1647ee49dc91… events=133,787 trades=4,089
+  checkpoint: 450 rows written
+[75/600] 0x24026080b17f… events=1,752,097 trades=16,472
+[100/600] 0x2c7f9b2304dc… events=165,559 trades=75
+  checkpoint: 900 rows written
+[125/600] 0x37025592fd4f… events=38,999 trades=293
+[150/600] 0x41eec77b0af2… events=40,345 trades=7,214
+  checkpoint: 1,350 rows written
+[175/600] 0x4f6636bbdbb0… events=453 trades=582
+[200/600] 0x5ba40fe6379e… events=1,986 trades=158
+  checkpoint: 1,800 rows written
+[225/600] 0x6429fd3afc9d… events=439 trades=598
+[250/600] 0x6cccaa20a83c… events=13,828 trades=83
+  checkpoint: 2,250 rows written
+[275/600] 0x773abaa5fe55… events=731 trades=21,012
+[300/600] 0x83409201fe37… events=255 trades=711
+  checkpoint: 2,700 rows written
+[325/600] 0x8d8c4c9ef25b… events=236 trades=860
+[350/600] 0x9714047743db… events=14,570 trades=226
+  checkpoint: 3,150 rows written
+[375/600] 0xa0052bfd36e2… events=78,251 trades=7,790
+[400/600] 0xae993d12787f… events=0 trades=2,478
+  checkpoint: 3,600 rows written
+[425/600] 0xb68a131a1758… events=0 trades=290
+[450/600] 0xc18a6429f319… events=23,125 trades=504
+  checkpoint: 4,050 rows written
+[475/600] 0xcaaa0570519e… events=0 trades=1,091
+[500/600] 0xd4bbf7f6707c… events=411,840 trades=58,321
+  checkpoint: 4,500 rows written
+[525/600] 0xdf1606063f92… events=31,388 trades=444
+[550/600] 0xe76974c6f2f2… events=24,883 trades=929
+  checkpoint: 4,950 rows written
+[575/600] 0xf1687533d1a9… events=0 trades=5,884
+[600/600] 0xffff6c984d7a… events=2,315,521 trades=13,027
+  checkpoint: 5,400 rows written
+
+wrote 5,400 rows to data/panel_trade_measures.parquet

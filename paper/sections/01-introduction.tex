@@ -1,0 +1,90 @@
+\section{Introduction}\label{sec:intro}
+
+Prediction markets aggregate dispersed beliefs into a single price
+that, in equilibrium, behaves like a probability. The empirical
+literature on these markets has historically focused on price-level
+questions: forecast accuracy, calibration against realised outcomes,
+the longshot bias, and the extent to which informed and uninformed
+traders coexist on the same venue
+\citep{wolfers-zitzewitz-2004,manski-2006,page-clemen-2013}.
+Microstructure determines the cost a participant pays per
+informational position and bounds how much the venue can aggregate;
+if a prediction market's microstructure is noisy, prices are noisier
+than the headline-level aggregation literature implicitly assumes.
+The microstructure of prediction markets, however, has remained
+under-studied: limit-order-book depth profiles, spread decompositions,
+and the behaviour of liquidity providers near resolution were largely
+unobservable on the early venues, which used scoring rules
+(IEM, Hanson's MSR) or sparse parimutuel pools. Polymarket-specific
+microstructure work has begun to appear in the working-paper
+literature \citep{aoyagi-2024,augenblick-bonadio-2024}, but neither
+authoritative on-chain trade direction nor a continuous off-chain
+order-book archive has been brought to bear at the scale we use here.
+The classical microstructure references behind our measurement
+choices are \citet{ohara-1995} and \citet{hasbrouck-2007} for
+order-book theory, \citet{foucault-pagano-roell-2013} for the
+liquidity-provider angle, and
+\citet{huang-stoll-1997,madhavan-richardson-roomans-1997} for spread
+decomposition.
+
+Polymarket changed this. Since 2021 the venue has run a
+limit-order-book exchange on Polygon, settling in USDC against an
+on-chain conditional-token contract. Our data covers 52 calendar days
+of the public WebSocket feed (2026-02-21 to 2026-04-15) at tick
+resolution: 30,287,264,368 events across 385,198 distinct markets.
+A 28-day overlap window (2026-02-28 to 2026-03-27) is mirrored on
+chain, where the CTF Exchange V1 contract logs 255 million
+\texttt{OrderFilled} events whose payloads identify both
+counterparties and the aggressor side. We use the off-chain feed for
+quote dynamics and the on-chain record for trade direction, and study
+both on a pre-registered, stratified 600-market panel.
+
+The empirical core of the paper is two findings, ordered here by
+which carries more weight for the literature.
+
+\textit{Trade-direction inference from Polymarket's public feed is
+noise-dominated.} Direction-dependent microstructure measures
+(effective spread, realized spread, Kyle's $\lambda$, Amihud,
+Roll, Abdi-Ranaldo) need an aggressor sign for each trade, and
+empirical practice on equity venues sources that sign from a
+quote-driven feed via Lee-Ready or its variants
+\citep{lee-ready-1991,ellis-michaely-ohara-2000}. Polymarket's public
+feed does not expose enough information to do this reliably: the
+\texttt{change\_side} field marks which side of the book moved, not
+which side initiated the trade. We document the consequences. Sign
+agreement between feed-inferred and on-chain trade directions sits at
+$\sim 59\%$ volume-weighted across the top-100 stratum and four
+disjoint 7-day windows, just above the 50\% chance baseline. Within
+the comparable subset of the top-100 panel this propagates to a 67\%
+sign-flip rate on the effective half-spread and a 60\% sign-flip rate
+on Kyle's $\lambda$ between feed-inferred and on-chain estimates. Any
+microstructure result on Polymarket that depends on trade direction
+therefore needs to source that direction from on-chain
+\texttt{OrderFilled} events. We release a replication package that
+performs the join.
+
+\textit{Eight cross-sectional stylized facts on the panel.} Quoted
+half-spread shows the longshot premium familiar from the racetrack
+literature; the L2 depth profile is closer to a uniform geometric
+grid than to the top-of-book pattern usually assumed for prediction
+markets; quote-update timing does not cluster on Polygon block
+boundaries to a meaningful degree; maker-wallet concentration is
+diverse on most markets with a thin concentrated tail; effective
+spreads differ by category; archive-ingestion latency is tightly
+distributed around 41.5\,ms with a multi-second $p_{99}$ tail; the
+self-counterparty wash share has a 1\% median and a 22\% maximum
+across the panel; and depth contracts in the cross-section as
+markets approach resolution at a within-category log-log slope of
+$0.55$. None of these eight facts requires the on-chain join, and
+each is reported on the full 600-market pre-registered panel.
+
+These two findings are complementary. The eight stylized facts
+characterise Polymarket's microstructure on its own terms; the
+methodological result establishes the conditions under which any
+trade-direction-dependent statement about Polymarket can be trusted.
+
+The most surprising finding by some distance is the measurement
+result of Section~\ref{sec:limits}; readers focused on the
+empirical-asset side of the contribution will likely care most about
+SF1 (longshot premium), SF2 (depth concentration), and SF8 (depth
+decay near resolution).

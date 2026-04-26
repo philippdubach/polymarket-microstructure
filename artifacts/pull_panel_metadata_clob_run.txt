@@ -1,0 +1,16 @@
+pulling metadata for 600 panel markets…
+  [50/600] hits=50  failed=0
+  [100/600] hits=100  failed=0
+  [150/600] hits=150  failed=0
+  [200/600] hits=200  failed=0
+  [250/600] hits=250  failed=0
+  [300/600] hits=300  failed=0
+  [350/600] hits=350  failed=0
+  [400/600] hits=400  failed=0
+  [450/600] hits=450  failed=0
+  [500/600] hits=500  failed=0
+  [550/600] hits=550  failed=0
+  [600/600] hits=600  failed=0
+
+fetched: 600, failed: 0
+wrote 600 rows to data/panel_metadata.parquet

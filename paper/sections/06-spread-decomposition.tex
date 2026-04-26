@@ -1,0 +1,48 @@
+\section{Spread Decomposition}\label{sec:decomp}
+
+Following \citet{glosten-harris-1988} and the modern restatements in
+\citet{huang-stoll-1997,madhavan-richardson-roomans-1997}, we
+decompose the per-market effective half-spread into two components:
+\begin{equation}
+  S^{\mathrm{eff}}_{1/2} \;=\; c \;+\; \varphi,
+\end{equation}
+where $c$ is a transitory order-processing / inventory component,
+recovered as the realized half-spread at a 60-second lag, and
+$\varphi$ is the residual adverse-selection component.
+
+We restrict the decomposition to the top-100 stratum, where on-chain
+trade counts are highest (median 11{,}000 trades per market in
+window). Per-market values come from
+\texttt{data/panel\_trade\_measures.parquet}, with authoritative
+on-chain trades injected into the patched Plan~2b measure stack
+(Section~\ref{sec:limits}).
+
+\begin{table*}[htbp]
+  \centering
+  \caption{Glosten-Harris decomposition — top-10 markets by on-chain
+    volume, expressed in probability points (prob~pp).}
+  \label{tab:gh}
+  \scriptsize
+  \input{tables/spread_decomposition_summary}
+\end{table*}
+
+\begin{figure*}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/spread_decomposition.png}
+  \caption{Glosten-Harris decomposition across the top-100 stratum:
+    distribution of transitory component $c$ (left) and adverse-selection
+    component $\varphi$ (right), both in probability points.}
+  \label{fig:gh}
+\end{figure*}
+
+The median effective half-spread on the top-100 panel is essentially
+zero ($-0.0003$\,prob~pp), as are the median transitory component
+($0.00001$) and the median adverse-selection component ($0.0$).
+This near-null pattern lines up with the calibration in
+Section~\ref{sec:limits}: once sign errors are removed, the
+dollar-weighted ``adverse selection'' that orderbook-only inference
+produces collapses, leaving the typical top-100 market with no
+detectable systematic spread component on either side. The
+distribution tails carry both market-specific adverse-selection
+events and residual measurement noise from the 60-second sample-step
+compromise documented in Section~\ref{ssec:methodology-caveats}.

@@ -1,0 +1,28 @@
+\section*{Abstract}
+We study the microstructure of Polymarket, the largest on-chain
+prediction market, using a continuous tick-level archive of the
+public WebSocket order-book feed (30 billion events over 52 days)
+joined to the authoritative on-chain trade record. On a pre-registered
+stratified panel of 600 markets we report eight stylized facts: a
+longshot spread premium; a depth-concentration profile closer to a
+uniform geometric grid than to the top-of-book pattern often assumed
+for prediction markets; a null block-clock alignment effect; broad
+maker-wallet diversity with a concentrated tail; category-conditional
+differences in effective spread; a sub-50 ms median archive-ingestion
+delay with a multi-second tail; a self-counterparty wash share with
+median 1\% and a 22\% upper tail, below the network-classifier
+benchmarks documented for cryptocurrency venues by
+\citet{cong-li-niu-2023}; and a
+depth-decay-near-resolution effect with a within-category slope of
+0.55 on log seconds-to-close ($t=3.85$). The paper also contributes a
+measurement result: trade direction inferred from Polymarket's public
+order-book feed agrees with on-chain ground truth only $\sim 59\%$
+of the time (volume-weighted across the top-100 stratum and four
+disjoint 7-day windows; 95\% bootstrap CI $[0.53, 0.68]$), barely
+above the 50\% chance baseline that direction-dependent microstructure
+measures need. Within the comparable subset of the top-100 panel,
+this manifests as a 67\% sign-flip rate on the effective half-spread
+and a 60\% sign-flip rate on Kyle's $\lambda$ between feed-inferred
+and on-chain estimates. Microstructure work on Polymarket therefore
+needs to source trade direction from on-chain \texttt{OrderFilled}
+events; we release a replication package that performs the join.

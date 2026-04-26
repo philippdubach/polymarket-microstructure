@@ -1,0 +1,44 @@
+window: 2026-02-28 00:00:00+00:00 -> 2026-03-28 00:00:00+00:00
+archive files: 673  panel markets: 600
+[1/600] 0xd4bbf7f6707c… events=411,840
+[25/600] 0x30a892ea01a4… events=40,411
+[50/600] 0x2701e5a5b751… events=311,215
+  checkpoint: 50 markets
+[75/600] 0xe71ad07c930b… events=25,139
+[100/600] 0x4bdaa5093741… events=954
+  checkpoint: 100 markets
+[125/600] 0xbb1864f121ec… events=1,589
+[150/600] 0x9b58f12cc74b… events=41,066
+  checkpoint: 150 markets
+[175/600] 0x5d59a7ac6a9d… events=35,436
+[200/600] 0xa29a945957f6… events=70,769
+  checkpoint: 200 markets
+[225/600] 0x8e93fe4cc237… events=6,467
+[250/600] 0x66df8e220c73… events=246
+  checkpoint: 250 markets
+[275/600] 0x0a71e3b1bcf7… events=73,564
+[300/600] 0x475193a9d67a… events=3,702
+  checkpoint: 300 markets
+[325/600] 0x1907e7bd495e… events=147
+[350/600] 0x064ea6e5fb7e… events=71,643
+  checkpoint: 350 markets
+[375/600] 0x94fce47d9bfc… events=14,716
+[400/600] 0x33b412491df0… events=645,842
+  checkpoint: 400 markets
+[425/600] 0x1ea6cc79d1f4… events=20,387
+[450/600] 0x90170b520b6e… events=43,306
+  checkpoint: 450 markets
+[475/600] 0x196b00e15e22… events=1,863
+[500/600] 0xd951bb750e82… events=1,664
+  checkpoint: 500 markets
+[525/600] 0x0685d89b3162… events=105,565
+[550/600] 0x41a9833ea922… events=84,520
+  checkpoint: 550 markets
+[575/600] 0x181628324b3c… events=9,147
+[600/600] 0xecd616686fe2… events=590
+  checkpoint: 600 markets
+wrote 600 rows to data/panel_quote/spread.parquet
+wrote 1,800 rows to data/panel_quote/depth.parquet
+wrote 600 rows to data/panel_quote/intensity.parquet
+wrote 547 rows to data/panel_quote/latency.parquet
+wrote 600 rows to data/panel_quote/clock.parquet

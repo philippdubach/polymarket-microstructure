@@ -1,0 +1,139 @@
+\section{Limits of Orderbook-Only Inference}\label{sec:limits}
+
+\subsection{Sign-agreement against on-chain ground truth}\label{ssec:sign-agreement}
+
+Six trade-based measures (effective spread, realized spread, Roll,
+Abdi-Ranaldo, Kyle's $\lambda$, Amihud) require an aggressor sign for
+each trade. Standard practice in equity microstructure infers that
+sign from a quote-driven feed via Lee-Ready, which assumes the feed
+exposes enough information to distinguish buyer-initiated from
+seller-initiated trades.
+
+Polymarket's public WebSocket feed does not. We infer trades from
+the feed under a LOOSE rule (every resting-size decrement counts) and
+match the inferred buckets against on-chain \texttt{OrderFilled}
+events at 5\,s and exact-price granularity. We run this matching over
+four disjoint 7-day windows (2026-02-28~--~03-06, 03-07~--~03-13,
+03-14~--~03-20, 03-21~--~03-27) on the top-100 stratum, computing
+sign-agreement and a 95\% bootstrap CI for cells with at least ten
+matched buckets.
+
+\begin{itemize}
+  \item Panel mean (109 valid cells of 400): \textbf{0.615}
+  \item Volume-weighted by matched-bucket count (total 82{,}544):
+        \textbf{0.586}
+  \item Panel median 0.591; IQR $[0.526, 0.681]$;
+        $p_{10}$--$p_{90}$ $[0.464, 0.841]$
+  \item Per-window medians 0.586 / 0.591 / 0.618 / 0.645
+\end{itemize}
+
+A volume-weighted sign-agreement of $\sim 59\%$ sits just above the
+50\% chance baseline. Even when an inferred bucket matches an
+on-chain bucket in time and price, the inferred aggressor direction
+is wrong about two trades in five. The mechanism is the feed itself:
+\texttt{price\_change} updates broadcast a post-match snapshot of the
+resting book without identifying the taker. The \texttt{change\_side}
+field marks which side of the book moved, not which side initiated
+the trade, and using it as a sign proxy produces the $\sim 59\%$
+agreement rate.
+
+\subsection{Propagation to direction-dependent measures}\label{ssec:strict-vs-onchain}
+
+A noisy sign propagates to every measure that consumes it. We compute
+all six trade-based measures under STRICT inference and under
+authoritative on-chain trades on the top-100 stratum over a 7-day
+window (2026-03-07~--~03-14); the window is shorter than the full
+scrape because STRICT inference is $O(n^2)$ in the recent-event list
+and the 28-day version did not finish in tractable wall time on this
+panel size.
+
+Three patterns emerge from the panel distribution.
+
+\textit{Trade-count divergence is direction-unpredictable.}
+Among 31 markets where both inference paths yielded non-empty trade
+streams, the STRICT/on-chain count ratio has a median of 0.23
+($p_{10}$--$p_{90}$ $[0.01, 1.45]$; min--max $[0.004, 3.62]$).
+STRICT typically under-counts by an order of magnitude; on a small
+tail of markets it over-counts by up to $3.6\times$. There is no
+correctable scaling factor.
+
+\textit{Effective spread sign-flips on two-thirds of the comparable
+panel.} Among 24 markets with both sources non-empty,
+16 (67\%, Wilson 95\% CI $[0.47, 0.82]$) have STRICT and on-chain
+effective half-spreads of opposite sign. The STRICT median is
+$+0.0048$\,prob~pp; the on-chain median is $-0.000075$\,prob~pp.
+Inferred trade directions induce a positive spread that the
+authoritative trade record does not support.
+
+\textit{Kyle's $\lambda$ sign-flips on three-fifths of the comparable
+panel.} Of 25 markets with both sources non-null and non-NaN, 15
+(60\%, Wilson 95\% CI $[0.41, 0.77]$) have STRICT and on-chain
+Kyle's $\lambda$ of opposite sign.
+
+These distributions replace the n=3 comparison reported in earlier
+versions of this paper. The artifact
+\texttt{artifacts/measures\_compare\_top100.parquet} contains the
+per-market panel. We note that only 24--31 of 100 top markets had
+both sources non-empty in the 7-day slice (the remainder had zero
+events on one side); the comparable-market subset is what supports
+the sign-flip rates above. Restricting the effective-spread
+comparison to markets with at least 100 STRICT trades raises the
+sign-flip rate from 67\% to 73\% (16/22, Wilson 95\% CI
+$[0.52, 0.87]$); the Kyle's $\lambda$ rate is essentially unchanged
+(59\% at the 100-bucket threshold). Small-sample selection on
+n_{\mathrm{strict}}$ does not generate the result.
+
+\subsection{Implications for Polymarket microstructure research}\label{ssec:methodology}
+
+Polymarket microstructure results that depend on trade direction
+require on-chain \texttt{OrderFilled} events as the direction source,
+not the public WebSocket feed. We release a replication package
+(\texttt{polydata.\allowbreak onchain.\allowbreak trades.\allowbreak load\_onchain\_trades})
+that performs the off-chain to on-chain join, together with a small
+patch set
+(\texttt{polydata.\allowbreak measures.\allowbreak \_trade\_source.\allowbreak resolve\_trades})
+that lets existing measure code accept injected authoritative trades
+without a rewrite.
+
+\subsection{Methodology caveats}\label{ssec:methodology-caveats}
+
+Three places where our compute approach trades accuracy for
+tractability on a 28-day, 600-market panel.
+
+\textit{Sample step.}
+Quote samples and bucketed lookups use a 60-second grid for the panel
+compute. Sensitivity tests on the top-5 markets across
+$\{1, 10, 60, 300\}$\,s (artifact
+\texttt{sample\_step\_sensitivity.parquet}) show that Roll is
+invariant by construction, that effective spread and Amihud are
+stable to within $\sim 10$--20\% at 60\,s relative to 1\,s on most
+markets, and that Kyle's $\lambda$ varies by orders of magnitude
+across step sizes on noisy markets. Kyle's $\lambda$ is the most
+fragile estimator at any sample step, consistent with its
+sign-flip behaviour in Section~\ref{ssec:strict-vs-onchain}.
+
+\textit{Cross-sectional SF8.}
+SF8 (Section~\ref{ssec:sf8}) is cross-sectional, not within-market
+over time. A within-market temporal regression would require
+per-market depth time-series that the current panel does not
+materialise.
+
+\textit{Wash-filter lower bound.}
+SF7 (Section~\ref{ssec:sf7}) returns a lower bound by construction;
+the gap to the network-classifier estimates documented in
+\citet{cong-li-niu-2023} for cryptocurrency venues is the share of
+wash-like activity that requires multi-counterparty graph
+classification rather than direct or one-step roundtrip detection.
+
+\textit{MEV as a confound for the buyer/seller asymmetry.}
+Polymarket settles on Polygon, whose mempool is publicly accessible
+to bots that can sandwich incoming orders, place runner trades, or
+execute related back-running strategies. We do not analyse mempool
+data in this paper, so the on-chain trade record we treat as ground
+truth includes whatever fills MEV bots produce on top of organic
+flow. The 60/40 seller/buyer asymmetry we observed in early panel
+work could reflect retail aggressor behaviour, MEV bot activity, or
+some mixture of the two. A within-market decomposition would
+require either Polygon mempool capture during the scrape window or
+a wallet-clustering approach against known MEV searchers; both are
+out of scope here and flagged for future work.

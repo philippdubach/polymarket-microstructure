@@ -1,0 +1,38 @@
+\section{Disclosures}\label{sec:disclosures}
+
+\subsection{Use of AI}
+
+The data-collection infrastructure and analysis code were developed
+with assistance from AI-based coding tools (GitHub Copilot with
+Claude Opus 4.5). The statistical analysis, interpretation of
+results, and all written content in the manuscript represent the
+original intellectual contributions of the author. AI writing
+assistants were used for grammar and clarity improvements.
+
+\subsection{Conflicts of Interest}
+
+The author declares no conflicts of interest.
+
+\subsection{Ethics Statement}
+
+This study analyzes publicly observable order-book and trade data.
+The Polymarket public WebSocket feed broadcasts limit-order-book
+state updates that any client can subscribe to; the Polygon
+\texttt{OrderFilled} events are public on-chain transactions
+recorded by the Polymarket CTF Exchange smart contract. No private
+user data was collected. Counterparty addresses on chain are
+pseudonymous public-key identifiers; we use them only to compute
+maker-wallet concentration (Section~\ref{ssec:sf4}) and a
+self-counterparty wash-share lower bound (Section~\ref{ssec:sf7}),
+without attempting to deanonymise any wallet.
+
+\subsection{Data and Code Availability}
+
+The complete analysis code and per-market panel artifacts are
+available at \url{https://github.com/philippdubach/polymarket-microstructure}.
+The 30-billion-event raw orderbook archive (623.8\,GB) is not
+redistributed in the replication package due to size; access can be
+arranged via the corresponding author. The on-chain
+\texttt{OrderFilled} scrape is reproducible from the
+\texttt{scripts/scrape\_onchain\_fills.py} pipeline against any
+Polygon RPC provider with archive-node access.

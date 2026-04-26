@@ -1,0 +1,7 @@
+agg rows: 2,446,114
+anchor block: 83558385, anchor t: 2026-02-28 00:00:01+00:00
+sample size: 50
+mean diff (s): 1.8400
+max abs diff (s): 4.0000
+p50 abs diff (s): 2.0000
+p95 abs diff (s): 4.0000

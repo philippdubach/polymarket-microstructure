@@ -1,0 +1,53 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xurl}
+
+\title{The Anatomy of a Decentralized Prediction Market: \\
+Microstructure Evidence from the Polymarket Order Book}
+\author{Philipp D.\ Dubach \\
+  \emph{Zurich, Switzerland} \\
+  \texttt{phdubach@pm.me}}
+\date{\today}
+
+\begin{document}
+\twocolumn[\maketitle]
+
+\noindent\textbf{JEL Classification:}\ G14 (Information and Market
+Efficiency; Event Studies; Insider Trading), G12 (Asset Pricing;
+Trading Volume; Bond Interest Rates), G19 (General Financial Markets),
+C58 (Financial Econometrics), L86 (Information and Internet Services;
+Computer Software).
+
+\vspace{0.5em}
+\noindent\textbf{Keywords:}\ Prediction markets, microstructure,
+limit order book, Polymarket, decentralized finance, on-chain data,
+trade-direction inference, effective spread, Kyle's $\lambda$,
+wash trading.
+
+\input{sections/abstract}
+
+\input{sections/01-introduction}
+\input{sections/02-background}
+\input{sections/03-data-construction}
+\input{sections/04-data}
+\input{sections/05-stylized-facts}
+\input{sections/06-spread-decomposition}
+\input{sections/07-limits}
+\input{sections/conclusion}
+\input{sections/disclosures}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

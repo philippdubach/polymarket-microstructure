@@ -1,0 +1,73 @@
+sensitivity cohort: 5 markets
+
+0x24fb7c2d95c9… events=38,858 trades=714
+  step=1s …
+  step=10s …
+  step=60s …
+  step=300s …
+
+0x561cd8d035ba… events=7,317 trades=1,003
+  step=1s …
+/Users/philippdubach/Desktop/poly-data-paper/.venv/lib/python3.11/site-packages/statsmodels/regression/linear_model.py:1782: RuntimeWarning: invalid value encountered in scalar divide
+  return 1 - self.ssr/self.centered_tss
+  step=10s …
+  step=60s …
+  step=300s …
+
+0x61ce3773237a… events=73,015 trades=1,700
+  step=1s …
+  step=10s …
+  step=60s …
+  step=300s …
+
+0x7cb525e83172… events=0 trades=720
+  step=1s …
+  step=10s …
+  step=60s …
+  step=300s …
+
+0xd4bbf7f6707c… events=0 trades=0
+  step=1s …
+  step=10s …
+  step=60s …
+  step=300s …
+
+wrote 100 rows to artifacts/sample_step_sensitivity.parquet
+shape: (25, 6)
+┌────────────────────────────┬─────────────────────┬───────────┬───────────┬───────────┬───────────┐
+│ market_id                  ┆ measure             ┆ 1         ┆ 10        ┆ 60        ┆ 300       │
+│ ---                        ┆ ---                 ┆ ---       ┆ ---       ┆ ---       ┆ ---       │
+│ str                        ┆ str                 ┆ f64       ┆ f64       ┆ f64       ┆ f64       │
+╞════════════════════════════╪═════════════════════╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ 0x24fb7c2d95c93a68018e6c4a ┆ effective_spread    ┆ -0.000644 ┆ -0.002114 ┆ -0.002361 ┆ -0.002492 │
+│ 90d88043bb67d32fd1454924ce ┆                     ┆           ┆           ┆           ┆           │
+│ f8ebdd550228f3             ┆                     ┆           ┆           ┆           ┆           │
+│ 0x24fb7c2d95c93a68018e6c4a ┆ abdi_ranaldo_spread ┆ 0.0       ┆ 0.0       ┆ 0.0       ┆ 0.0       │
+│ 90d88043bb67d32fd1454924ce ┆                     ┆           ┆           ┆           ┆           │
+│ f8ebdd550228f3             ┆                     ┆           ┆           ┆           ┆           │
+│ 0x24fb7c2d95c93a68018e6c4a ┆ roll_implied_spread ┆ 0.10985   ┆ 0.10985   ┆ 0.10985   ┆ 0.10985   │
+│ 90d88043bb67d32fd1454924ce ┆                     ┆           ┆           ┆           ┆           │
+│ f8ebdd550228f3             ┆                     ┆           ┆           ┆           ┆           │
+│ 0x24fb7c2d95c93a68018e6c4a ┆ kyle_lambda         ┆ -0.000011 ┆ -0.00001  ┆ -0.000001 ┆ -0.00001  │
+│ 90d88043bb67d32fd1454924ce ┆                     ┆           ┆           ┆           ┆           │
+│ f8ebdd550228f3             ┆                     ┆           ┆           ┆           ┆           │
+│ 0x24fb7c2d95c93a68018e6c4a ┆ amihud_illiquidity  ┆ 0.000029  ┆ 0.000028  ┆ 0.000027  ┆ 0.000034  │
+│ 90d88043bb67d32fd1454924ce ┆                     ┆           ┆           ┆           ┆           │
+│ f8ebdd550228f3             ┆                     ┆           ┆           ┆           ┆           │
+│ …                          ┆ …                   ┆ …         ┆ …         ┆ …         ┆ …         │
+│ 0xd4bbf7f6707c67beb736135a ┆ effective_spread    ┆ NaN       ┆ NaN       ┆ NaN       ┆ NaN       │
+│ d32a41f6db41f8ae52d3ac4919 ┆                     ┆           ┆           ┆           ┆           │
+│ 650de9eeb94ed8             ┆                     ┆           ┆           ┆           ┆           │
+│ 0xd4bbf7f6707c67beb736135a ┆ abdi_ranaldo_spread ┆ NaN       ┆ NaN       ┆ NaN       ┆ NaN       │
+│ d32a41f6db41f8ae52d3ac4919 ┆                     ┆           ┆           ┆           ┆           │
+│ 650de9eeb94ed8             ┆                     ┆           ┆           ┆           ┆           │
+│ 0xd4bbf7f6707c67beb736135a ┆ roll_implied_spread ┆ NaN       ┆ NaN       ┆ NaN       ┆ NaN       │
+│ d32a41f6db41f8ae52d3ac4919 ┆                     ┆           ┆           ┆           ┆           │
+│ 650de9eeb94ed8             ┆                     ┆           ┆           ┆           ┆           │
+│ 0xd4bbf7f6707c67beb736135a ┆ kyle_lambda         ┆ NaN       ┆ NaN       ┆ NaN       ┆ NaN       │
+│ d32a41f6db41f8ae52d3ac4919 ┆                     ┆           ┆           ┆           ┆           │
+│ 650de9eeb94ed8             ┆                     ┆           ┆           ┆           ┆           │
+│ 0xd4bbf7f6707c67beb736135a ┆ amihud_illiquidity  ┆ NaN       ┆ NaN       ┆ NaN       ┆ NaN       │
+│ d32a41f6db41f8ae52d3ac4919 ┆                     ┆           ┆           ┆           ┆           │
+│ 650de9eeb94ed8             ┆                     ┆           ┆           ┆           ┆           │
+└────────────────────────────┴─────────────────────┴───────────┴───────────┴───────────┴───────────┘

@@ -1,0 +1,131 @@
+\section{Institutional Background}\label{sec:background}
+
+\subsection{Conditional tokens and binary markets}
+
+A Polymarket binary market resolves to one of two outcomes. The
+exchange records the outcomes as ERC-1155 conditional tokens issued
+by Gnosis's Conditional Tokens Framework (CTF) on Polygon. Each
+market has a YES token and a NO token; the contract guarantees that
+one YES + one NO can always be redeemed for one USDC after
+resolution. As a consequence, in equilibrium the YES price plus the
+NO price equals one and either side can be priced as the
+probability of the corresponding outcome.
+
+Liquidity exists for both sides. A trader who is long YES and
+believes the implied probability is too high can either sell YES on
+the YES book or buy NO on the NO book. The two strategies differ in
+inventory effects and slippage but are economically equivalent at
+mid. Throughout this paper we report measures on the YES side; YES
+and NO books are structural mirrors of each other and the panel
+artifacts contain both.
+
+\subsection{The CTF Exchange contract}
+
+Trading happens through the Polymarket CTF Exchange smart contract,
+which matches signed off-chain orders against resting liquidity and
+executes settlement on chain. Two contract versions are in scope.
+V1 (\texttt{0x4bFb41d5\allowbreak B3570DeFd03\allowbreak C39a9A4D8dE6Bd8\allowbreak B8982E})
+ran from launch through the end of April 2026 and is the contract our
+28-day scrape window targets. V2
+(\texttt{0xE111180000d2663C\allowbreak 0091e4f400237545\allowbreak B87B996B})
+launched in early April 2026 with a hard cutover; V1 orders are
+rejected after the switch. Both versions emit the same
+\texttt{OrderFilled} event signature, with topic hash
+\texttt{0xd0a08e8c\allowbreak 493f9c94f29311604c9de\allowbreak 1b4e8c8d4c06bd0c789af57f2d65bfec0f6}.
+
+The event payload carries
+\texttt{(orderHash, maker, taker, makerAssetId, takerAssetId,
+makerAmountFilled, takerAmountFilled, fee)}. The asset ids identify
+which side held USDC: \texttt{makerAssetId == 0} means the maker
+posted USDC and the taker is the seller of the conditional token;
+\texttt{takerAssetId == 0} means the taker posted USDC and is
+therefore the buyer. This binary asset-id field is the on-chain
+ground truth for trade direction that we use throughout the paper.
+
+\subsection{Polygon block timing and settlement}
+
+Polygon mainnet produces a block roughly every two seconds. Trade
+settlement is final to within Heimdall's 256-block reorg buffer,
+so we scrape only blocks at depth $\geq 256$ to avoid reorg
+contamination. Block timestamps are monotonic but not perfectly
+spaced; for our window the empirical mean inter-block interval is
+2.0\,s with a small variance, well below the 60-second sample step
+used in the panel compute. Where we need to attach a wall-clock
+timestamp to an on-chain trade we use linear interpolation from a
+single anchor block, which is accurate to within a few seconds over
+the 28-day window.
+
+\subsection{The public WebSocket feed}
+
+In parallel with on-chain settlement, Polymarket broadcasts a public
+WebSocket feed that exposes order-book state to any subscriber. The
+feed emits two event types. \texttt{book\_snapshot} carries a
+complete L2 snapshot of one side of one market and is sent on
+subscription and at irregular intervals thereafter (0.6\% of events
+in our archive). \texttt{price\_change} carries a delta against the
+last known book state: a single triple
+\texttt{(change\_price, change\_side, change\_size)} that updates one
+level on one side. A \texttt{change\_size} of zero means the level
+is empty; a non-zero size is the new resting quantity at that price.
+These events are 99.4\% of the archive.
+
+The feed does not expose taker identity. The \texttt{change\_side}
+field labels which side of the book the level update applies to,
+not which side initiated the trade that produced the update. This
+distinction is the proximate cause of the measurement gap we
+document in Section~\ref{sec:limits}: an inference algorithm working
+from the feed alone cannot reliably reconstruct the aggressor sign
+because the underlying field never encodes it.
+
+\subsection{Why aggressor sign matters}
+
+Most direction-dependent microstructure measures take the form
+\begin{equation*}
+  M = \mathbb{E}\!\left[
+    \mathrm{sign}_t \cdot
+    f(\mathrm{price}_t, \mathrm{mid}_t, \mathrm{size}_t)
+  \right],
+\end{equation*}
+where $\mathrm{sign}_t \in \{-1, +1\}$ is the aggressor sign for
+trade $t$ and $f$ is the per-trade contribution. Effective half-spread
+($f = \mathrm{price}_t - \mathrm{mid}_t$), realized half-spread,
+Kyle's $\lambda$ regression coefficient, and the adverse-selection
+component of Glosten-Harris all instantiate this form. A noisy
+$\mathrm{sign}_t$ does not just attenuate $M$; depending on the
+distribution of $f$ across trades, it can flip the sign of $M$.
+This is why the 59\% sign-agreement rate documented in
+Section~\ref{ssec:sign-agreement} translates into the 67\% effective-
+spread and 60\% Kyle's $\lambda$ sign-flip rates we report on the
+top-100 panel.
+
+\subsection{Comparison to equity-market microstructure}\label{ssec:equity-comparison}
+
+Several of our findings only acquire scale once they are placed
+against the equity-market benchmarks. \citet{ellis-michaely-ohara-2000}
+report that the Lee-Ready algorithm correctly classifies 81\% of
+trades on Nasdaq, and the original \citet{lee-ready-1991} study
+reports a similar accuracy on NYSE TAQ; the failure of feed-driven
+inference on Polymarket at $\sim 59\%$ is therefore around 22
+percentage points below the equity benchmark on the same algorithm.
+Effective half-spreads on liquid US equities post-decimalization sit
+in the single-digit-basis-point range
+\citep{hasbrouck-2007,foucault-pagano-roell-2013}; on Polymarket,
+expressed in basis points relative to mid, the median quoted
+half-spread on the central price decile is around 200\,bps, an order
+of magnitude wider, consistent with longer-horizon prediction-market
+positions and substantially smaller market-maker capital.
+Liquidity-provider activity on US equities is heavily concentrated
+in a handful of high-frequency firms that account for roughly half
+of trading volume \citep{brogaard-hendershott-riordan-2014}; the
+median Polymarket market in our panel has $\sim 32$ effective makers
+(SF4), suggesting a flatter maker landscape on the venue. Wash
+trading on regulated equity exchanges is essentially zero (it is
+prohibited under SEC Rule 10b-5); on unregulated cryptocurrency
+venues \citet{cong-li-niu-2023} document wash-trade shares of
+25--70\%; Polymarket sits at a median 1\% under our lower-bound
+detector with a 22\% upper tail, between the two regimes. Finally,
+collector-side ingestion latency for direct equity feeds is
+sub-millisecond and SIP latency is in the hundreds of microseconds
+\citep{hasbrouck-2007}; our 41\,ms median for archive ingestion is
+two orders of magnitude slower, but that gap reflects our
+collector pipeline rather than the exchange.

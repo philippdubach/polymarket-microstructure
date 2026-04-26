@@ -1,0 +1,59 @@
+\section{Data}\label{sec:data}
+
+\subsection{Orderbook archive}
+\label{ssec:orderbook-archive}
+
+Our primary input is a continuous tick-level archive of Polymarket's
+public WebSocket order-book feed from 2026-02-21 16:00 UTC through
+2026-04-15 08:00 UTC, 52 calendar days. The archive holds 1{,}262
+hourly Parquet files (623.8\,GB on disk) and 30{,}287{,}264{,}368
+event rows. Three hourly files are missing
+(2026-02-24T14, 2026-02-24T15, 2026-04-04T18); we treat the gaps as
+missing rather than malformed.
+
+Each row is either a \texttt{price\_change} update (99.4\% of events)
+or a \texttt{book\_snapshot} (0.6\%); the payload is a JSON string
+parsed on demand. Two timestamps are emitted per event:
+\texttt{timestamp\_received} (exchange-side) and
+\texttt{timestamp\_created\_at} (collector-side). The difference
+captures collector ingestion delay (Section~\ref{ssec:sf6}).
+
+The archive contains 385{,}198 distinct \texttt{market\_id} values
+(roughly twice that with the YES/NO side split). The CLOB REST
+endpoint resolves token-pair metadata for all 385{,}198. The Gamma
+metadata API is sparser, indexing only 34{,}764 markets.
+
+\subsection{On-chain trade join}
+\label{ssec:onchain-join}
+
+Orderbook events alone do not identify the trade-aggressor sign
+reliably: feed-inferred sign matches the on-chain record on only
+$\sim 59\%$ of comparable buckets, just above the 50\% chance
+baseline (Section~\ref{sec:limits}). We therefore scrape Polymarket's
+CTF Exchange V1 contract
+(\texttt{0x4bFb41d5\allowbreak B3570DeFd03\allowbreak C39a9A4D8dE6Bd8\allowbreak B8982E})
+for \texttt{OrderFilled} events on Polygon mainnet across the 28-day
+calibration window 2026-02-28~--~2026-03-27, yielding 255{,}425{,}405
+fills. The aggressor sign reads directly from the event fields: $+1$
+when \texttt{takerAssetId}~$=$~0 (taker posted USDC and is therefore
+the buyer), $-1$ when \texttt{makerAssetId}~$=$~0.
+
+\subsection{Stratified panel}
+\label{ssec:panel}
+
+Our cross-sectional panel has 600 markets in two strata. The top-100
+stratum ranks markets by total on-chain USDC trade volume in the
+scrape window (summing across both YES and NO tokens). The random-500
+stratum samples uniformly without replacement from markets with at
+least 100 on-chain trades that resolve to a token pair via the CLOB
+cache. We commit the random seed (20260424) in the pre-registration
+document (\texttt{docs/preregistration\_plan3c.md}) before computing
+the panel.
+
+Per-market metadata (\texttt{question}, \texttt{end\_date\_iso},
+\texttt{closed}) is pulled from CLOB REST
+\texttt{/markets/\{conditionId\}} for all 600 markets. The top-stratum
+volume range is \$4.56M to \$96.0M USDC; the random stratum spans
+100 to 24{,}378 trades per market. Crypto markets dominate the panel
+composition (348/600, 58\%), followed by Sports (142/600, 24\%);
+Table~\ref{tab:sf5_category} gives the breakdown.

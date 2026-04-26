@@ -1,0 +1,4 @@
+wrote 600 rows to data/panel.parquet
+  top stratum:    100
+  random stratum: 500
+sha256: eac535cdeae72779ec6aba5022a6e47ea8a8b7295350c17729596ea698dae501

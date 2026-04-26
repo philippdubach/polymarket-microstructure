@@ -1,0 +1,39 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+/dist/
+/build/
+*.egg-info/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Local-only data not redistributed (see paper §3)
+data/onchain_fills/
+data/panel_orderbook_shards/
+data/panel_orderbook_cache.parquet
+data/panel_onchain_cache.parquet
+data/metadata_cache.parquet
+data/market_ids_checkpoint.parquet
+
+# Over GitHub's 100 MB file limit; regenerate via
+# scripts/pull_token_ids_clob.py (~6 min CLOB REST pagination).
+data/clob_token_map.parquet
+
+# LaTeX build intermediates (keep the final PDF)
+paper/build/*.aux
+paper/build/*.log
+paper/build/*.out
+paper/build/*.toc
+paper/build/*.bbl
+paper/build/*.blg
+paper/build/*.fls
+paper/build/*.fdb_latexmk
+paper/build/*.synctex.gz

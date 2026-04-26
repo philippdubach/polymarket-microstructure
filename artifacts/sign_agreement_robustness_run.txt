@@ -1,0 +1,40 @@
+top-stratum markets: 100
+
+window 1/4: 2026-02-28 -> 2026-03-07, on-chain rows: 684,458
+  [1/100] 0x03bc660a4df5… matched=2 sa=0.500
+  [50/100] 0x70909f0ba825… matched=5,747 sa=0.465
+  [100/100] 0xffff6c984d7a… matched=186 sa=0.661
+  window 1 checkpoint: 100 cells
+
+window 2/4: 2026-03-07 -> 2026-03-14, on-chain rows: 541,340
+  [100/100] 0xffff6c984d7a… matched=305 sa=0.623
+  window 2 checkpoint: 200 cells
+
+window 3/4: 2026-03-14 -> 2026-03-21, on-chain rows: 609,936
+  [25/100] 0x3e5a63708c82… matched=0 sa=nan
+  [75/100] 0xca0136d7acc1… matched=0 sa=nan
+  [100/100] 0xffff6c984d7a… matched=1,231 sa=0.676
+  window 3 checkpoint: 300 cells
+
+window 4/4: 2026-03-21 -> 2026-03-28, on-chain rows: 610,380
+  [100/100] 0xffff6c984d7a… matched=780 sa=0.718
+  window 4 checkpoint: 400 cells
+
+wrote 400 rows to artifacts/sign_agreement_robustness.parquet
+valid cells: 400 / 400
+panel mean sign-agreement: nan
+panel median:              nan
+p25-p75: 0.8597 - nan
+
+per-window summary:
+shape: (4, 5)
+┌────────────┬───────────┬──────────┬─────┬───────────┐
+│ window_idx ┆ median_sa ┆ p25      ┆ p75 ┆ n_markets │
+│ ---        ┆ ---       ┆ ---      ┆ --- ┆ ---       │
+│ i64        ┆ f64       ┆ f64      ┆ f64 ┆ u32       │
+╞════════════╪═══════════╪══════════╪═════╪═══════════╡
+│ 0          ┆ NaN       ┆ 0.587234 ┆ NaN ┆ 100       │
+│ 1          ┆ NaN       ┆ NaN      ┆ NaN ┆ 100       │
+│ 2          ┆ NaN       ┆ NaN      ┆ NaN ┆ 100       │
+│ 3          ┆ NaN       ┆ NaN      ┆ NaN ┆ 100       │
+└────────────┴───────────┴──────────┴─────┴───────────┘

@@ -1,0 +1,36 @@
+\section{Conclusion}\label{sec:conclusion}
+
+This paper joins a tick-level Polymarket order-book archive to the
+authoritative on-chain trade record and reports cross-sectional
+microstructure for a pre-registered 600-market panel. On the quoted
+side we find a longshot spread premium, a depth profile closer to a
+uniform geometric grid than the top-of-book pattern usually assumed
+for prediction markets, and an archive-ingestion latency distribution
+whose tight inter-market spread points to collector behaviour rather
+than trader speed. On the on-chain side, maker liquidity is broadly
+decentralised with a thin tail dominated by a few wallets, and
+self-counterparty wash activity sits well under the network-classifier
+benchmark in the recent literature.
+
+The methodological finding is the more consequential one. Trade
+direction inferred from Polymarket's public WebSocket feed agrees with
+on-chain ground truth on only $\sim 59\%$ of comparable buckets,
+barely above the chance baseline. On the comparable subset of the
+top-100 panel this propagates to a 67\% sign-flip rate on the
+effective half-spread and a 60\% sign-flip rate on Kyle's $\lambda$
+between feed-inferred and on-chain estimates. Polymarket
+microstructure work that depends on aggressor sign therefore needs
+to source it from \texttt{OrderFilled} events rather than the public
+feed.
+
+Four extensions follow naturally from the data we did not exploit.
+The CTF Exchange V1 to V2 cutover at the end of April 2026 closes our
+scrape window and opens a venue-evolution comparison. Polygon mempool
+data could disentangle MEV from real retail aggressor flow, which our
+60/40 buyer/seller asymmetry conflates. Per-market depth time series,
+which our panel summarises away, would let SF8 move from a
+cross-sectional to a within-market depth-decay regression. And
+cross-venue analysis against Kalshi, PredictIt, or sports-book
+mirrors would address the price-discovery question we leave open
+here: are Polymarket's prices the leader or the follower for the
+real-world events its markets resolve on?

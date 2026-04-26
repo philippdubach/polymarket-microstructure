@@ -1,0 +1,104 @@
+\section{Data Construction}\label{sec:dataconstruction}
+
+This section describes the engineering pipeline behind the dataset
+that Section~\ref{sec:data} characterises empirically. The
+distinction between the two sections is deliberate: §3 covers how
+the data were collected and reconciled; §4 describes what they
+contain.
+
+\subsection{Off-chain orderbook archive}
+
+The off-chain feed was captured via a long-running collector that
+subscribed to Polymarket's public WebSocket and wrote one Parquet
+file per UTC hour. Each row contains the raw event JSON plus two
+timestamps: \texttt{timestamp\_received} from the exchange and
+\texttt{timestamp\_created\_at} from the collector. The collector
+ran continuously from 2026-02-21 16:00 UTC through 2026-04-15 08:00
+UTC. Three hourly files are missing
+(2026-02-24T14, 2026-02-24T15, 2026-04-04T18); the gaps are stable
+and treated as missing rather than malformed throughout the
+analysis. Total archive: 1{,}262 hourly Parquet files,
+30{,}287{,}264{,}368 rows, 623.8\,GB on disk.
+
+The schema is preserved verbatim from the WebSocket payload, with
+the JSON \texttt{data} string parsed on demand. We avoid eager
+parsing because the row count makes per-event Pydantic validation a
+multi-hour operation; we instead apply structured parsing only to
+the events that survive market-id and time-window filters.
+
+\subsection{On-chain trade scrape}
+
+The on-chain side scrapes \texttt{OrderFilled} events from the CTF
+Exchange V1 contract over the 28-day calibration window
+(2026-02-28 to 2026-03-27). The scraper is implemented as
+batched \texttt{eth\_getLogs} calls against a Polygon RPC provider,
+with adaptive chunk sizing to navigate provider-specific rate limits
+(\texttt{scripts/scrape\_onchain\_fills.py}). Each call returns at
+most a few hundred events; total fills across the window are
+255{,}425{,}405. The scraper writes one Parquet shard per
+five-thousand-block slice, deduplicates on
+\texttt{(transactionHash, logIndex)}, and skips blocks at
+depth less than 256 (Polygon's Heimdall reorg buffer).
+
+Block timestamps are attached via linear interpolation from a single
+anchor block at the start of the window. We verified the
+interpolation error against per-block RPC calls on a 50-block
+stratified sample drawn across the 28-day window: the maximum
+absolute gap is 4 seconds, the median is 2 seconds. Both are well
+below the 60-second sample step used in the panel compute.
+
+The on-chain decoder
+(\texttt{polydata.onchain.join.aggregate\_onchain\_df}) drops
+``split fills'' where neither side is USDC (the binary
+maker/taker-asset-id rule for the aggressor sign breaks down when
+both sides hold conditional tokens). Across the 255{,}425{,}405
+fills in the scrape window, 0 fills satisfy this condition; the
+filter is non-binding on the V1 contract during our window.
+
+\subsection{Schema reconciliation across sources}
+
+The off-chain feed is keyed on \texttt{market\_id} (66-character
+hex \texttt{conditionId}) and \texttt{token\_id} (256-bit decimal,
+the YES or NO ERC-1155 id). The on-chain record is keyed on
+\texttt{makerAssetId} and \texttt{takerAssetId}, which are the same
+ERC-1155 ids except that one side is set to \texttt{0} to mark
+USDC. The bridge between the two is the
+\texttt{(condition\_id, yes\_token\_id, no\_token\_id)} mapping,
+which we pull from CLOB REST
+(\texttt{/markets/\{conditionId\}}) and cache locally. CLOB REST
+resolves all 385{,}198 archive market ids; the Gamma metadata API,
+which is sometimes used in the literature, indexes only 34{,}764
+markets and is not the right source for this join.
+
+\subsection{Pre-registration of the panel}
+
+The 600-market panel is the principal cross-sectional unit of the
+paper. We commit the selection rule before computing the panel.
+The pre-registration document
+(\texttt{docs/preregistration\_plan3c.md}) specifies the volume
+metric, the random-stratum eligibility threshold, the random seed,
+and the categorisation scheme used for SF5. The panel is then
+computed by a single deterministic script
+(\texttt{scripts/build\_panel.py}) and the resulting parquet is
+hashed into the pre-registration document, creating a one-way
+dependency from the rule set to the realised panel.
+
+This discipline is heavier than is conventional in empirical
+microstructure work, but the cost is small (a single document plus
+a hash) and the benefit is large: any reader can verify that no
+market was added or removed after the analysis ran.
+
+\subsection{Replication package}
+
+All code that produced the artifacts cited in this paper is in the
+repository at
+\url{https://github.com/philippdubach/polymarket-microstructure}. The full 624-GB
+WebSocket archive is not redistributed in the package; we describe
+the collector configuration in this section and provide the panel
+parquet artifacts (\texttt{data/panel.parquet},
+\texttt{data/panel\_trade\_measures.parquet},
+\texttt{data/panel\_quote/*}) directly, together with the on-chain
+scrape pipeline. A reader who wants to reproduce a single number in
+the paper can do so against the artifacts; a reader who wants to
+extend the analysis to a different window will need to re-run the
+WebSocket collector.
