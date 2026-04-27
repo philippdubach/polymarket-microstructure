@@ -1,0 +1,128 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brogaard et~al.(2014)Brogaard, Hendershott, and
+  Riordan]{brogaard-hendershott-riordan-2014}
+Jonathan Brogaard, Terrence Hendershott, and Ryan Riordan.
+\newblock High-frequency trading and price discovery.
+\newblock \emph{Review of Financial Studies}, 27\penalty0 (8):\penalty0
+  2267--2306, 2014.
+
+\bibitem[Cong et~al.(2023)Cong, Li, Tang, and Yang]{cong-li-tang-yang-2023}
+Lin~William Cong, Xi~Li, Ke~Tang, and Yang Yang.
+\newblock Crypto wash trading.
+\newblock \emph{Management Science}, 69\penalty0 (11):\penalty0 6427--6454,
+  2023.
+
+\bibitem[Dubach(2026)]{dubach-2026-replication}
+Philipp~D. Dubach.
+\newblock Replication package: The anatomy of a decentralized prediction
+  market, 2026.
+\newblock URL \url{https://doi.org/10.5281/zenodo.19811426}.
+
+\bibitem[Ellis et~al.(2000)Ellis, Michaely, and
+  O'Hara]{ellis-michaely-ohara-2000}
+Katrina Ellis, Roni Michaely, and Maureen O'Hara.
+\newblock The accuracy of trade classification rules: Evidence from nasdaq.
+\newblock \emph{Journal of Financial and Quantitative Analysis}, 35\penalty0
+  (4):\penalty0 529--551, 2000.
+
+\bibitem[Foucault et~al.(2013)Foucault, Pagano, and
+  R{\"o}ell]{foucault-pagano-roell-2013}
+Thierry Foucault, Marco Pagano, and Ailsa R{\"o}ell.
+\newblock \emph{Market Liquidity: Theory, Evidence, and Policy}.
+\newblock Oxford University Press, 2013.
+
+\bibitem[Glosten and Harris(1988)]{glosten-harris-1988}
+Lawrence~R. Glosten and Lawrence~E. Harris.
+\newblock Estimating the components of the bid/ask spread.
+\newblock \emph{Journal of Financial Economics}, 21\penalty0 (1):\penalty0
+  123--142, 1988.
+
+\bibitem[Hanson(2007)]{hanson-2007}
+Robin Hanson.
+\newblock Logarithmic market scoring rules for modular combinatorial
+  information aggregation.
+\newblock \emph{Journal of Prediction Markets}, 1\penalty0 (1):\penalty0 3--15,
+  2007.
+
+\bibitem[Hasbrouck(2007)]{hasbrouck-2007}
+Joel Hasbrouck.
+\newblock \emph{Empirical Market Microstructure: The Institutions, Economics,
+  and Econometrics of Securities Trading}.
+\newblock Oxford University Press, 2007.
+
+\bibitem[Huang and Stoll(1997)]{huang-stoll-1997}
+Roger~D. Huang and Hans~R. Stoll.
+\newblock The components of the bid-ask spread: A general approach.
+\newblock \emph{Review of Financial Studies}, 10\penalty0 (4):\penalty0
+  995--1034, 1997.
+
+\bibitem[Lee and Ready(1991)]{lee-ready-1991}
+Charles M.~C. Lee and Mark~J. Ready.
+\newblock Inferring trade direction from intraday data.
+\newblock \emph{Journal of Finance}, 46\penalty0 (2):\penalty0 733--746, 1991.
+
+\bibitem[Madhavan et~al.(1997)Madhavan, Richardson, and
+  Roomans]{madhavan-richardson-roomans-1997}
+Ananth Madhavan, Matthew Richardson, and Mark Roomans.
+\newblock Why do security prices change? a transaction-level analysis of {NYSE}
+  stocks.
+\newblock \emph{Review of Financial Studies}, 10\penalty0 (4):\penalty0
+  1035--1064, 1997.
+
+\bibitem[Manski(2006)]{manski-2006}
+Charles~F. Manski.
+\newblock Interpreting the predictions of prediction markets.
+\newblock \emph{Economics Letters}, 91\penalty0 (3):\penalty0 425--429, 2006.
+
+\bibitem[O'Hara(1995)]{ohara-1995}
+Maureen O'Hara.
+\newblock \emph{Market Microstructure Theory}.
+\newblock Blackwell Publishing, 1995.
+
+\bibitem[Page and Clemen(2013)]{page-clemen-2013}
+Lionel Page and Robert~T. Clemen.
+\newblock Do prediction markets produce well-calibrated probability forecasts?
+\newblock \emph{The Economic Journal}, 123\penalty0 (568):\penalty0 491--513,
+  2013.
+
+\bibitem[Rahman et~al.(2025)Rahman, Al-Chami, and
+  Clark]{rahman-alchami-clark-2025}
+Nahid Rahman, Joseph Al-Chami, and Jeremy Clark.
+\newblock {SoK}: Market microstructure for decentralized prediction markets
+  ({DePMs}).
+\newblock \emph{arXiv preprint arXiv:2510.15612}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2510.15612}.
+
+\bibitem[Snowberg and Wolfers(2010)]{snowberg-wolfers-2010}
+Erik Snowberg and Justin Wolfers.
+\newblock Explaining the favorite-long shot bias: Is it risk-love or
+  misperceptions?
+\newblock \emph{Journal of Political Economy}, 118\penalty0 (4):\penalty0
+  723--746, 2010.
+
+\bibitem[Thaler and Ziemba(1988)]{thaler-ziemba-1988}
+Richard~H. Thaler and William~T. Ziemba.
+\newblock Anomalies: Parimutuel betting markets: Racetracks and lotteries.
+\newblock \emph{Journal of Economic Perspectives}, 2\penalty0 (2):\penalty0
+  161--174, 1988.
+
+\bibitem[Tsang and Yang(2026)]{tsang-yang-2026}
+Kwok~Ping Tsang and Zichao Yang.
+\newblock The anatomy of {Polymarket}: Evidence from the 2024 presidential
+  election.
+\newblock \emph{arXiv preprint arXiv:2603.03136}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2603.03136}.
+
+\bibitem[Wolfers and Zitzewitz(2004)]{wolfers-zitzewitz-2004}
+Justin Wolfers and Eric Zitzewitz.
+\newblock Prediction markets.
+\newblock \emph{Journal of Economic Perspectives}, 18\penalty0 (2):\penalty0
+  107--126, 2004.
+
+\end{thebibliography}
