@@ -19,11 +19,18 @@ unobservable on the early venues, which used scoring rules
 (IEM, Hanson's MSR) or sparse parimutuel pools. Polymarket-specific
 microstructure work has begun to appear: \citet{rahman-alchami-clark-2025}
 provide a systematisation-of-knowledge survey of decentralised
-prediction-market microstructure, and \citet{tsang-yang-2026} document
-transaction-level patterns in the 2024 US presidential election
-market. Neither authoritative on-chain trade direction nor a
-continuous off-chain order-book archive has been brought to bear at
-the cross-sectional scale we use here.
+prediction-market microstructure, and \citet{tsang-yang-2026}
+characterise the 2024 US presidential election market as a
+single-event time-series, documenting episode-level patterns around
+Biden's withdrawal, the September debate, and the October whale
+trades, including a roughly order-of-magnitude decline in Kyle's
+$\lambda$ as the market matured. Our work is the cross-sectional
+complement: rather than tracking one large event over time, we
+characterise 600 markets simultaneously across the same scrape
+window and quantify the off-chain feed's measurement gap relative
+to on-chain ground truth. Neither authoritative on-chain trade
+direction nor a continuous off-chain order-book archive has been
+brought to bear at this scale.
 The classical microstructure references behind our measurement
 choices are \citet{ohara-1995} and \citet{hasbrouck-2007} for
 order-book theory, \citet{foucault-pagano-roell-2013} for the
