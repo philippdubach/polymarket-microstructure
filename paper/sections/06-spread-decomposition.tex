@@ -15,26 +15,30 @@ trade counts are highest (median 11{,}000 trades per market in
 window). Per-market values come from
 \texttt{data/panel\_trade\_measures.parquet}, computed by injecting
 authoritative on-chain trades into the measure pipeline described
-in Section~\ref{sec:limits}.
+in Section~\ref{sec:limits}. The decomposition converges on 97 of
+100 markets; the three non-converging markets had too few signed
+trades after on-chain alignment for the realized-half-spread term to
+identify.
 
-\begin{table*}[htbp]
+\begin{table}[!htbp]
   \centering
   \caption{Glosten-Harris decomposition — first 10 top-100 markets
     (hex-ordered) with a converged decomposition, in probability
     points. 97 of 100 panel markets converged; three did not.}
   \label{tab:gh}
   \scriptsize
-  \input{tables/spread_decomposition_summary}
-\end{table*}
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\columnwidth}{!}{\input{tables/spread_decomposition_summary}}
+\end{table}
 
-\begin{figure*}[htbp]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/spread_decomposition.png}
+  \includegraphics[width=0.95\columnwidth]{figures/spread_decomposition.png}
   \caption{Glosten-Harris decomposition across the top-100 stratum:
     distribution of transitory component $c$ (left) and adverse-selection
     component $\varphi$ (right), both in probability points.}
   \label{fig:gh}
-\end{figure*}
+\end{figure}
 
 The median effective half-spread on the top-100 panel is essentially
 zero ($-0.0003$\,prob~pp), as are the median transitory component

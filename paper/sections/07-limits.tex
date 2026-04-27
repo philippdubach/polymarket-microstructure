@@ -180,7 +180,13 @@ data, so the on-chain trade record we treat as ground truth
 contains whatever fills MEV bots produce on top of organic flow.
 The 60/40 seller/buyer asymmetry across the panel is therefore
 consistent with retail aggressor behaviour, MEV bot activity, or
-some mixture of the two. Decomposing it would require Polygon
+some mixture of the two. Decomposing it would help via Polygon
 mempool capture during the scrape window or a wallet-clustering
 approach against known MEV searchers; both are outside the scope
-of this paper.
+of this paper. Public-mempool capture on Polygon is not a clean
+solution either, because a non-trivial share of order flow on
+Polygon routes through private mempools (Marlin Relay, Bloxroute,
+Flashbots-on-Polygon variants) and never appears in the public feed
+to begin with. A future MEV-attribution exercise would need to
+combine public-mempool data with relay-side captures from at least
+the largest private channels.

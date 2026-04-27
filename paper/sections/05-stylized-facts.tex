@@ -157,6 +157,13 @@ Section~\ref{sec:limits}.
 
 \subsection{SF6 -- Archive-ingestion latency}\label{ssec:sf6}
 
+This stylised fact is a property of our collector pipeline, not of
+the Polymarket exchange. The two timestamps are emitted on opposite
+sides of a network and a queue, and their difference reflects whatever
+the round-trip cost of that pipeline happens to be on a given event.
+Trader speed enters at most indirectly. Cite SF6 as ``archive
+ingestion latency'' rather than ``Polymarket latency''.
+
 Each archive row carries two timestamps:
 \texttt{timestamp\_received} (exchange side) and
 \texttt{timestamp\_created\_at} (collector side). Their difference is
