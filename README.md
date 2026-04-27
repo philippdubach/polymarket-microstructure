@@ -1,5 +1,7 @@
 # polymarket-microstructure
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19811426.svg)](https://doi.org/10.5281/zenodo.19811426)
+
 Replication package for *The Anatomy of a Decentralized Prediction Market: Microstructure Evidence from the Polymarket Order Book.*
 
 The paper documents eight cross-sectional stylized facts on a pre-registered 600-market panel of Polymarket markets, plus a methodological contribution: trade-direction inference from Polymarket's public WebSocket order-book feed agrees with the on-chain ground truth on only ~59% of comparable buckets, with downstream sign-flip rates of 67% on the effective half-spread and 60% on Kyle's λ between feed-inferred and on-chain estimates.
@@ -78,9 +80,23 @@ Re-running the full pipeline from raw data takes several hours of compute and as
 Dubach, Philipp D. (2026). The Anatomy of a Decentralized Prediction Market:
 Microstructure Evidence from the Polymarket Order Book. Working Paper.
 https://github.com/philippdubach/polymarket-microstructure
+DOI: 10.5281/zenodo.19811426
 ```
 
-A BibTeX entry will be added once the paper has a stable arXiv or SSRN ID.
+```bibtex
+@misc{dubach-2026-replication,
+  author    = {Dubach, Philipp D.},
+  title     = {Replication package: The Anatomy of a Decentralized
+               Prediction Market},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {v1.0},
+  doi       = {10.5281/zenodo.19811426},
+  url       = {https://doi.org/10.5281/zenodo.19811426},
+}
+```
+
+A separate BibTeX entry for the working paper itself will be added once the manuscript has a stable arXiv or SSRN ID.
 
 ---
 
