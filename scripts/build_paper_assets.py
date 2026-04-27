@@ -83,6 +83,7 @@ TABLES = [
             "c_transitory": "$c$ (transitory)",
             "phi_adverse_sel": "$\\varphi$ (adverse sel.)",
         },
+        "drop_nan_in": ["eff_half", "c_transitory", "phi_adverse_sel"],
         "head": 10,
         "truncate_id": ("market_id", 16),
     },
@@ -105,6 +106,9 @@ def main() -> int:
             print(f"skip {spec['name']} (missing {p})")
             continue
         df = pl.read_parquet(p)
+        if "drop_nan_in" in spec:
+            for col in spec["drop_nan_in"]:
+                df = df.filter(pl.col(col).is_finite())
         if "head" in spec:
             df = df.head(spec["head"])
         if "truncate_id" in spec:
