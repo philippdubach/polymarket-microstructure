@@ -42,7 +42,8 @@ absolute gap is 4 seconds, the median is 2 seconds. Both are well
 below the 60-second sample step used in the panel compute.
 
 The on-chain decoder
-(\texttt{polydata.onchain.join.aggregate\_onchain\_df}) drops
+(\texttt{polydata.\allowbreak onchain.\allowbreak join.\allowbreak aggregate\_onchain\_df})
+drops
 ``split fills'' where neither side is USDC (the binary
 maker/taker-asset-id rule for the aggressor sign breaks down when
 both sides hold conditional tokens). Across the 255{,}425{,}405
@@ -83,15 +84,18 @@ verify no market was added or removed after the analysis ran.
 \subsection{Replication package}
 
 All code that produced the artifacts cited in this paper is in the
-repository at
+repository at\linebreak[1]
 \url{https://github.com/philippdubach/polymarket-microstructure},
-archived for replication under DOI \texttt{10.5281/zenodo.19811426}
+archived for replication under DOI
+\texttt{10.5281/zenodo.19811426}
 \citep{dubach-2026-replication}. The full 624-GB WebSocket archive
 is not redistributed in the package; we describe the collector
 configuration in this section and provide the panel parquet
-artifacts (\texttt{data/panel.parquet},
-\texttt{data/panel\_trade\_measures.parquet},
-\texttt{data/panel\_quote/*}) directly, together with the on-chain
+artifacts
+(\texttt{data/\allowbreak panel.parquet},
+\texttt{data/\allowbreak panel\_trade\_measures.\allowbreak parquet},
+\texttt{data/\allowbreak panel\_quote/*})
+directly, together with the on-chain
 scrape pipeline. A reader who wants to reproduce a single number in
 the paper can do so against the artifacts; a reader who wants to
 extend the analysis to a different window will need to re-run the

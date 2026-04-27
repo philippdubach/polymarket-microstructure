@@ -57,6 +57,9 @@ def main() -> int:
     t_end = datetime.fromisoformat(
         os.environ.get("CALIB_END_ISO", "2026-03-28T00:00:00+00:00"),
     )
+    out_path_str = os.environ.get(
+        "CALIB_OUT_PARQUET", "artifacts/measures_compare_top100.parquet",
+    )
     print(f"window: {t_start} -> {t_end}", flush=True)
     panel = pl.read_parquet("data/panel.parquet").filter(
         pl.col("stratum") == "top"
@@ -117,11 +120,11 @@ def main() -> int:
             continue
         if i % 25 == 0 and rows:
             partial = pl.concat(rows, how="diagonal_relaxed")
-            partial.write_parquet("artifacts/measures_compare_top100.parquet")
+            partial.write_parquet(out_path_str)
             print(f"  checkpoint: {partial.height:,} rows", flush=True)
 
     panel_m = pl.concat(rows, how="diagonal_relaxed")
-    out = Path("artifacts/measures_compare_top100.parquet")
+    out = Path(out_path_str)
     panel_m.write_parquet(out)
     print(f"\nwrote {panel_m.height:,} rows to {out}", flush=True)
     return 0

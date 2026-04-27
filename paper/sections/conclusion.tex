@@ -9,16 +9,19 @@ for prediction markets, and an archive-ingestion latency distribution
 whose tight inter-market spread points to collector behaviour rather
 than trader speed. On the on-chain side, maker liquidity is broadly
 decentralised with a thin tail dominated by a few wallets, and
-self-counterparty wash activity sits well under the network-classifier
-benchmark in the recent literature.
+self-counterparty wash activity is low under our direct-detection
+lower bound.
 
 The methodological finding is the more consequential one. Trade
 direction inferred from Polymarket's public WebSocket feed agrees with
 on-chain ground truth on only $\sim 59\%$ of comparable buckets,
 barely above the chance baseline. On the comparable subset of the
-top-100 panel this propagates to a 67\% sign-flip rate on the
-effective half-spread and a 60\% sign-flip rate on Kyle's $\lambda$
-between feed-inferred and on-chain estimates. Polymarket
+top-100 panel the propagation is window-specific but consistent in
+direction: the effective half-spread flips sign on 67\% of markets
+in our first 7-day window and 50\% in a second non-overlapping
+window, with Kyle's $\lambda$ at 60\% and 43\% respectively. Both
+windows sit at or below the chance band, well short of the
+$\sim 80\%$ Lee-Ready accuracy on equity venues. Polymarket
 microstructure work that depends on aggressor sign therefore needs
 to source it from \texttt{OrderFilled} events rather than the public
 feed.

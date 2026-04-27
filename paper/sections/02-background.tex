@@ -34,8 +34,12 @@ rejected after the switch. Both versions emit the same
 \texttt{0xd0a08e8c\allowbreak 493f9c94f29311604c9de\allowbreak 1b4e8c8d4c06bd0c789af57f2d65bfec0f6}.
 
 The event payload carries
-\texttt{(orderHash, maker, taker, makerAssetId, takerAssetId,
-makerAmountFilled, takerAmountFilled, fee)}. The asset ids identify
+\texttt{(orderHash},
+\texttt{maker}, \texttt{taker},
+\texttt{makerAssetId}, \texttt{takerAssetId},
+\texttt{makerAmountFilled},
+\texttt{takerAmountFilled}, \texttt{fee)}.
+The asset ids identify
 which side held USDC: \texttt{makerAssetId == 0} means the maker
 posted USDC and the taker is the seller of the conditional token;
 \texttt{takerAssetId == 0} means the taker posted USDC and is
@@ -120,9 +124,13 @@ median Polymarket market in our panel has $\sim 32$ effective makers
 (SF4), suggesting a flatter maker landscape on the venue. Wash
 trading on regulated equity exchanges is essentially zero (it is
 prohibited under SEC Rule 10b-5); on unregulated cryptocurrency
-venues \citet{cong-li-niu-2023} document wash-trade shares of
-25--70\%; Polymarket sits at a median 1\% under our lower-bound
-detector with a 22\% upper tail, between the two regimes. Finally,
+token exchanges \citet{cong-li-niu-2023} document wash-trade shares
+of 25--70\% via a network-classifier approach. Polymarket sits at a
+median 1\% under our direct-detection lower bound with a 22\% upper
+tail. The token-exchange benchmark is a different incentive
+environment (volume-tied listing fees, aggregator-ranking
+optimisation, market-making rebates), so we treat 25--70\% as a
+sanity bound rather than an apples-to-apples reference. Finally,
 collector-side ingestion latency for direct equity feeds is
 sub-millisecond and SIP latency is in the hundreds of microseconds
 \citep{hasbrouck-2007}; our 41\,ms median for archive ingestion is

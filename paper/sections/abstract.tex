@@ -10,19 +10,26 @@ for prediction markets; a null block-clock alignment effect; broad
 maker-wallet diversity with a concentrated tail; category-conditional
 differences in effective spread; a sub-50 ms median archive-ingestion
 delay with a multi-second tail; a self-counterparty wash share with
-median 1\% and a 22\% upper tail, below the network-classifier
-benchmarks documented for cryptocurrency venues by
-\citet{cong-li-niu-2023}; and a
+median 1\% and a 22\% upper tail, where the comparison to the
+network-classifier benchmarks of \citet{cong-li-niu-2023} on
+unregulated cryptocurrency token exchanges is a sanity bound rather
+than an apples-to-apples reference because the venues face different
+wash incentives; and a
 depth-decay-near-resolution effect with a within-category slope of
 0.55 on log seconds-to-close ($t=3.85$). The paper also contributes a
 measurement result: trade direction inferred from Polymarket's public
 order-book feed agrees with on-chain ground truth only $\sim 59\%$
 of the time (volume-weighted across the top-100 stratum and four
-disjoint 7-day windows; panel mean 0.615, IQR $[0.53, 0.68]$),
+disjoint 7-day windows; panel mean 0.615, market-clustered bootstrap
+95\% CI $[0.58, 0.65]$, IQR $[0.53, 0.68]$),
 barely above the 50\% chance baseline that direction-dependent
-microstructure measures need. Within the comparable subset of the top-100 panel,
-the effective half-spread changes sign on 67\% of markets when we
-swap feed-inferred trade direction for the on-chain record, and
-Kyle's $\lambda$ changes sign on 60\% of markets. Microstructure work on Polymarket therefore
+microstructure measures need. On the comparable subset of the
+top-100 panel, the effective half-spread changes sign between feed-
+and on-chain trade directions on 67\% of markets in the first 7-day
+window (50\% in a second non-overlapping window), and Kyle's
+$\lambda$ changes sign on 60\% (43\% in the second window); both
+windows fail to recover the on-chain sign at anything close to the
+$\sim 80\%$ rate that Lee-Ready achieves on equity venues.
+Microstructure work on Polymarket therefore
 needs to source trade direction from on-chain \texttt{OrderFilled}
 events; we release a replication package that performs the join.

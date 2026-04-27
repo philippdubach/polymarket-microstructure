@@ -16,21 +16,25 @@ The microstructure of prediction markets, however, has remained
 under-studied: limit-order-book depth profiles, spread decompositions,
 and the behaviour of liquidity providers near resolution were largely
 unobservable on the early venues, which used scoring rules
-(IEM, Hanson's MSR) or sparse parimutuel pools. Polymarket-specific
-microstructure work has begun to appear: \citet{rahman-alchami-clark-2025}
-provide a systematisation-of-knowledge survey of decentralised
-prediction-market microstructure, and \citet{tsang-yang-2026}
-characterise the 2024 US presidential election market as a
-single-event time-series, documenting episode-level patterns around
-Biden's withdrawal, the September debate, and the October whale
-trades, including a roughly order-of-magnitude decline in Kyle's
-$\lambda$ as the market matured. Our work is the cross-sectional
-complement: rather than tracking one large event over time, we
-characterise 600 markets simultaneously across the same scrape
-window and quantify the off-chain feed's measurement gap relative
-to on-chain ground truth. Neither authoritative on-chain trade
-direction nor a continuous off-chain order-book archive has been
-brought to bear at this scale.
+(IEM, Hanson's MSR) or sparse parimutuel pools. Two recent
+Polymarket-specific contributions sit close to the present paper but
+ask different questions. \citet{rahman-alchami-clark-2025} survey
+decentralised prediction-market microstructure as a methodological
+domain, framing the open questions across venues without bringing
+matching tick-level data. \citet{tsang-yang-2026} run a single-event
+time-series microstructure study on the 2024 US presidential
+election market, documenting episode-level patterns around Biden's
+withdrawal, the September debate, and the October whale trades, and
+reporting a roughly order-of-magnitude decline in Kyle's $\lambda$
+as the market matured; the unit of analysis is one market over many
+time slices, with $\lambda$ estimated on aggregated rather than
+tick-level data. The present paper is the cross-sectional, tick-level
+complement: 600 markets observed simultaneously over a single 28-day
+scrape window, with microstructure measures computed on the full
+event tape and a direct on-chain trade record. To our knowledge,
+neither authoritative on-chain trade direction nor a continuous
+off-chain order-book archive at tick resolution has been brought to
+bear at the cross-sectional scale we use here.
 The classical microstructure references behind our measurement
 choices are \citet{ohara-1995} and \citet{hasbrouck-2007} for
 order-book theory, \citet{foucault-pagano-roell-2013} for the
@@ -67,11 +71,15 @@ feed-inferred and on-chain trade directions sits at $\sim 59\%$
 volume-weighted across the top-100 stratum and four disjoint 7-day
 windows, just above the 50\% chance baseline. On the comparable
 subset of the top-100 panel, the effective half-spread changes sign
-on 67\% of markets when feed-inferred direction is swapped for the
-on-chain record, and Kyle's $\lambda$ changes sign on 60\%. Any
-Polymarket microstructure result that depends on trade direction
-therefore needs to source it from on-chain \texttt{OrderFilled}
-events. We release a replication package that performs the join.
+on 67\% of markets in a first 7-day window when feed-inferred
+direction is swapped for the on-chain record, and Kyle's $\lambda$
+changes sign on 60\%; in a second non-overlapping window the rates
+fall to 50\% and 43\% respectively. Both windows sit in or below
+the chance band, well short of the $\sim 80\%$ Lee-Ready accuracy
+documented on Nasdaq. Any Polymarket microstructure result that
+depends on trade direction therefore needs to source it from
+on-chain \texttt{OrderFilled} events. We release a replication
+package that performs the join.
 
 \textit{Eight cross-sectional stylized facts on the panel.} Quoted
 half-spread shows the longshot premium familiar from the racetrack

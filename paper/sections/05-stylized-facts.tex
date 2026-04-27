@@ -13,7 +13,23 @@ central $[0.4, 0.6]$ range and climbs to 1{,}300--1{,}800\,bps for
 markets trading below $0.10$. The pattern is asymmetric: the
 low-probability side is wider than the high-probability side, which
 echoes the longshot bias documented in the racetrack and parimutuel
-literature \citep{snowberg-wolfers-2010,thaler-ziemba-1988}.
+literature \citep{snowberg-wolfers-2010,thaler-ziemba-1988} and the
+prediction-market longshot evidence on Iowa Electronic Markets and
+TradeSports surveyed by \citet{wolfers-zitzewitz-2004}. The direction
+is the same; the magnitude is not. Racetrack longshot premia are
+typically a few percent of stake, and prediction-market longshot
+biases observed on IEM and TradeSports run in the same range. The
+1{,}300--1{,}800\,bps half-spread on Polymarket's lowest-probability
+decile is an order of magnitude wider, which reads less like the
+classical risk-love or misperception story and more like a
+liquidity-provision constraint: low-probability binary contracts
+have a bounded upside and an asymmetric downside for the maker, so
+the inventory-risk premium on the wide side is mechanically larger
+than on a continuous-payoff sportsbook market. Distinguishing
+inventory risk from a behavioural longshot premium would require
+data we do not collect (maker realised inventory and time-on-book),
+so we report SF1 as a Polymarket-specific quoted-spread stylised
+fact and leave the structural decomposition to follow-on work.
 
 \begin{figure}[htbp]
   \centering
@@ -169,15 +185,23 @@ We flag a trade as wash-suspect under a two-tier rule:
 \emph{lower bound}: it captures only direct and immediate-roundtrip
 self-counterparty patterns, not the extended-graph patterns that
 network-based classifiers such as \citet{cong-li-niu-2023} address
-on cryptocurrency venues (where wash shares of 25--70\% have been
-documented for unregulated exchanges).
+on unregulated cryptocurrency token exchanges, where wash shares of
+25--70\% have been documented. We cite this range as a sanity bound,
+not an apples-to-apples reference: the wash-incentive environment on
+token exchanges (listing-fee thresholds, aggregator-ranking
+optimisation, volume-tied market-making rebates) differs from the
+incentive environment on a prediction market that resolves into a
+single binary payoff and does not list across competing aggregators.
 
 Across 600 markets and 6.4\,M trades, the median wash share is
 \textbf{0.97\%}, with $p_{90}=4.5\%$, $p_{99}=10.6\%$, and a maximum
-of 22.2\%. No market in the panel reaches the lower end of the
-crypto-venue range. The gap between our lower bound and the
-network-based literature represents wash activity detectable only via
-multi-counterparty graph analysis.
+of 22.2\%. The gap between our lower bound and the network-classifier
+estimates on token exchanges has two components: wash patterns that
+require multi-counterparty graph analysis to detect (which our
+detector does not cover), plus a venue-class difference in the
+underlying wash incentives. We can quantify the first component only
+under a graph-classifier extension; the second component is
+identification, not measurement.
 
 \begin{figure}[htbp]
   \centering
@@ -216,7 +240,13 @@ depth variation, but the time-to-close coefficient stays positive
 and significant. A 0.31 slope works out to $\sim 6\%$ less mean
 depth per $10\times$ reduction in seconds-to-close, a smaller
 economic magnitude than the bivariate or the category-FE
-specification implied.
+specification implied. We treat the category + log-volume
+specification as the conservative reading: volume mediates the
+depth-time relationship because markets active longer accumulate
+more makers, and more makers means more depth, so a regression that
+omits volume attributes the makers-and-time channel to time alone.
+The headline 0.305 coefficient is the residual depth decay after
+that mediation is netted out.
 
 \begin{figure}[htbp]
   \centering

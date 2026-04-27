@@ -1,0 +1,9 @@
+§7.1 panel-level sign-agreement CI (cluster bootstrap on market_id)
+  valid cells: 109 / 400
+  unique markets: 55
+  total matched buckets: 125,080
+
+  simple panel mean: 0.6151  SE=0.0188  95% CI [0.5791, 0.6527]
+  volume-weighted panel mean (by n_matched): 0.5922  SE=0.0316  95% CI [0.5418, 0.6589]
+
+  bootstrap iterations: 10,000  seed: 20260427

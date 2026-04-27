@@ -78,12 +78,13 @@ TABLES = [
         "name": "spread_decomposition_summary",
         "parquet": "artifacts/spread_decomposition.parquet",
         "header_map": {
-            "market_id": "Market id",
+            "market_id": "Market id (truncated)",
             "eff_half": "Effective half",
             "c_transitory": "$c$ (transitory)",
             "phi_adverse_sel": "$\\varphi$ (adverse sel.)",
         },
         "head": 10,
+        "truncate_id": ("market_id", 16),
     },
 ]
 
@@ -106,6 +107,13 @@ def main() -> int:
         df = pl.read_parquet(p)
         if "head" in spec:
             df = df.head(spec["head"])
+        if "truncate_id" in spec:
+            col, n = spec["truncate_id"]
+            df = df.with_columns(
+                pl.col(col).str.slice(0, n).str.replace_all("_", "\\_")
+                .map_elements(lambda s: f"{s}\\ldots", return_dtype=pl.Utf8)
+                .alias(col)
+            )
         latex = df_to_booktabs(df, spec["header_map"])
         out = Path(f"paper/tables/{spec['name']}.tex")
         out.write_text(latex + "\n")

@@ -50,9 +50,13 @@ cache. We commit the random seed (20260424) in the pre-registration
 document (\texttt{docs/preregistration\_plan3c.md}) before computing
 the panel.
 
-Per-market metadata (\texttt{question}, \texttt{end\_date\_iso},
-\texttt{closed}) is pulled from CLOB REST
-\texttt{/markets/\{conditionId\}} for all 600 markets. The top-stratum
+Per-market metadata fields
+\texttt{question},
+\texttt{end\_date\_iso},
+and \texttt{closed}
+are pulled from CLOB REST
+\texttt{/markets/\allowbreak\{conditionId\}}
+for all 600 markets. The top-stratum
 volume range is \$4.56M to \$96.0M USDC; the random stratum spans
 100 to 24{,}378 trades per market. Crypto markets dominate the panel
 composition (348/600, 58\%), followed by Sports (142/600, 24\%);

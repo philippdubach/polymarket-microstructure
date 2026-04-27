@@ -19,9 +19,12 @@ sign-agreement and a 95\% bootstrap CI for cells with at least ten
 matched buckets.
 
 \begin{itemize}
-  \item Panel mean (109 valid cells of 400): \textbf{0.615}
-  \item Volume-weighted by matched-bucket count (total 82{,}544):
-        \textbf{0.586}
+  \item Panel mean (109 valid cells of 400, 55 markets):
+        \textbf{0.615}, market-clustered bootstrap 95\% CI
+        $[0.579, 0.653]$
+  \item Volume-weighted by matched-bucket count
+        (total 125{,}080): \textbf{0.592}, market-clustered
+        bootstrap 95\% CI $[0.542, 0.659]$
   \item Panel median 0.591; IQR $[0.526, 0.681]$;
         $p_{10}$--$p_{90}$ $[0.464, 0.841]$
   \item Per-window medians 0.586 / 0.591 / 0.618 / 0.645
@@ -37,7 +40,7 @@ field marks which side of the book moved, not which side initiated
 the trade, and using it as a sign proxy produces the $\sim 59\%$
 agreement rate.
 
-\subsection{Propagation to direction-dependent measures}\label{ssec:strict-vs-onchain}
+\subsection{Propagation to direction-de\-pen\-dent measures}\label{ssec:strict-vs-onchain}
 
 A noisy sign propagates to every measure that consumes it. We compute
 all six trade-based measures under STRICT inference and under
@@ -49,7 +52,7 @@ panel size.
 
 Three patterns emerge from the panel distribution.
 
-\textit{Trade-count divergence is direction-unpredictable.}
+\textit{Trade-count divergence is direction-un\-pre\-dict\-able.}
 Among 31 markets where both inference paths yielded non-empty trade
 streams, the STRICT/on-chain count ratio has a median of 0.23
 ($p_{10}$--$p_{90}$ $[0.01, 1.45]$; min--max $[0.004, 3.62]$).
@@ -70,17 +73,51 @@ panel.} Of 25 markets with both sources non-null and non-NaN, 15
 (60\%, Wilson 95\% CI $[0.41, 0.77]$) have STRICT and on-chain
 Kyle's $\lambda$ of opposite sign.
 
-The artifact
-\texttt{artifacts/measures\_compare\_top100.parquet} carries the
-per-market panel behind these distributions. Only 24--31 of the 100
-top markets had both inference paths non-empty in the 7-day slice
-(the remainder had zero events on one side); the comparable-market
-subset is what supports the sign-flip rates above. Restricting the
+\textit{Selection robustness.}
+Only 24--31 of the 100 top markets had both inference paths non-empty
+in the 7-day slice (the remainder had zero events on one side); the
+comparable-market subset is what supports the sign-flip rates above.
+Three checks address whether the subset is representative.
+First, the 24 effective-spread markets cover \textbf{98\% of top-100
+on-chain dollar volume} on this window, and the 25 Kyle's $\lambda$
+markets cover \textbf{99\%} — the dropped markets are the small,
+quiet tail rather than typical activity. Second, weighting by
+on-chain dollar volume across the comparable subset, the
+effective-spread sign-flip rate \textbf{rises} from 67\% to
+\textbf{86\%} (bootstrap 95\% CI $[0.32, 0.99]$): the largest market
+in the window, which alone accounts for two-thirds of top-100 volume,
+is one of the markets that sign-flips. Volume weighting therefore
+strengthens the headline rather than softening it. Kyle's $\lambda$
+moves the other way: weighting by on-chain dollar volume drops the
+sign-flip share from 60\% to \textbf{18\%} (bootstrap 95\% CI
+$[0.04, 0.81]$), because the $\lambda$ estimate on the largest market
+is dominated by zero-bucket noise where both sources happen to agree
+on a near-zero negative value. The Kyle's $\lambda$ instability is
+concentrated on smaller markets where $\lambda$ is fragile in any
+case (Section~\ref{ssec:methodology-caveats}); the effective-spread
+result is the more load-bearing one. Restricting the
 effective-spread comparison to markets with at least 100 STRICT
-trades pushes the sign-flip rate from 67\% to 73\% (16/22, Wilson
-95\% CI $[0.52, 0.87]$); the Kyle's $\lambda$ rate is essentially
-unchanged (59\% at the 100-bucket threshold). The pattern is not
-a small-sample selection artefact.
+trades pushes the unweighted sign-flip rate from 67\% to 73\% (16/22,
+Wilson 95\% CI $[0.52, 0.87]$); the Kyle's $\lambda$ rate is
+essentially unchanged (59\% at the 100-bucket threshold). Third, we
+re-run the comparison on the next non-overlapping 7-day window
+(2026-03-14 to 03-21). Comparable subsets are larger in this window
+(30 markets for both effective spread and Kyle's $\lambda$). The
+unweighted sign-flip rates fall by about 17 percentage points: the
+effective-spread rate is 50\% (15/30, Wilson 95\% CI $[0.33, 0.67]$)
+and the Kyle's $\lambda$ rate is 43\% (13/30, Wilson 95\% CI
+$[0.27, 0.61]$). Both Wilson intervals contain the 50\% chance
+baseline. The two-window swing is meaningful: STRICT-vs-on-chain
+sign agreement on these measures is window-specific. What does not
+swing is the methodological conclusion. Across both windows the
+flip rate sits in or below the chance band, the published headline
+(67\% / 60\% on window A) is not exceptional, and on neither window
+does feed-based inference recover the on-chain sign at the
+$\sim 80\%$ rate that Lee-Ready achieves on equity venues. Window-B
+results ship in
+\texttt{measures\_\allowbreak compare\_\allowbreak top100\_\allowbreak window\_b.parquet}
+and the side-by-side
+in \texttt{r3\_\allowbreak window\_\allowbreak robustness.csv}.
 
 \subsection{Implications for Polymarket microstructure research}\label{ssec:methodology}
 
@@ -92,7 +129,16 @@ that performs the off-chain to on-chain join, together with a small
 patch set
 (\texttt{polydata.\allowbreak measures.\allowbreak \_trade\_source.\allowbreak resolve\_trades})
 that lets existing measure code accept injected authoritative trades
-without a rewrite.
+without a rewrite. The same constraint should bind on any
+decentralised CLOB venue where the off-chain matching layer
+broadcasts post-match book state without exposing the taker
+identity (GMX v1, dYdX v3, Loopring's historical CLOB, and similar
+hybrid architectures): the public feed exposes \emph{what cleared}
+but not \emph{who initiated}, and any direction-dependent
+microstructure measure on those venues will need an authoritative
+on-chain trade source. The replication package is contract-agnostic
+on the trade-loading side; only the venue-specific event signature
+needs to be plugged in.
 
 \subsection{Methodology caveats}\label{ssec:methodology-caveats}
 
@@ -118,11 +164,13 @@ per-market depth time-series that the current panel does not
 materialise.
 
 \textit{Wash-filter lower bound.}
-SF7 (Section~\ref{ssec:sf7}) returns a lower bound by construction;
-the gap to the network-classifier estimates documented in
-\citet{cong-li-niu-2023} for cryptocurrency venues is the share of
-wash-like activity that requires multi-counterparty graph
-classification rather than direct or one-step roundtrip detection.
+SF7 (Section~\ref{ssec:sf7}) returns a lower bound by construction:
+the detector covers direct self-match and one-step roundtrip
+patterns, not the multi-counterparty graph patterns that
+network-based classifiers detect. Closing the gap on Polymarket
+specifically would require a graph-classifier extension; the
+\citet{cong-li-niu-2023} 25--70\% range is a token-exchange sanity
+bound, not an apples-to-apples benchmark for prediction markets.
 
 \textit{MEV as a confound on the buyer/seller asymmetry.}
 Polymarket settles on Polygon, whose mempool is publicly accessible
