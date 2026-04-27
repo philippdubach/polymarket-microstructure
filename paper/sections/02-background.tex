@@ -19,16 +19,16 @@ mid. Throughout this paper we report measures on the YES side; YES
 and NO books are structural mirrors of each other and the panel
 artifacts contain both.
 
-\subsection{The CTF Exchange contract}
+\subsection{CTF Exchange contract architecture}
 
 Trading happens through the Polymarket CTF Exchange smart contract,
 which matches signed off-chain orders against resting liquidity and
-executes settlement on chain. Two contract versions are in scope.
-V1 (\texttt{0x4bFb41d5\allowbreak B3570DeFd03\allowbreak C39a9A4D8dE6Bd8\allowbreak B8982E})
-ran from launch through the end of April 2026 and is the contract our
+executes settlement on chain. The contract has two versions. V1
+(\texttt{0x4bFb41d5\allowbreak B3570DeFd03\allowbreak C39a9A4D8dE6Bd8\allowbreak B8982E})
+ran from launch through the end of April 2026 and is the version our
 28-day scrape window targets. V2
 (\texttt{0xE111180000d2663C\allowbreak 0091e4f400237545\allowbreak B87B996B})
-launched in early April 2026 with a hard cutover; V1 orders are
+launched in early April 2026 with a hard cutover; V1 orders were
 rejected after the switch. Both versions emit the same
 \texttt{OrderFilled} event signature, with topic hash
 \texttt{0xd0a08e8c\allowbreak 493f9c94f29311604c9de\allowbreak 1b4e8c8d4c06bd0c789af57f2d65bfec0f6}.
@@ -55,7 +55,7 @@ timestamp to an on-chain trade we use linear interpolation from a
 single anchor block, which is accurate to within a few seconds over
 the 28-day window.
 
-\subsection{The public WebSocket feed}
+\subsection{Public WebSocket feed structure}
 
 In parallel with on-chain settlement, Polymarket broadcasts a public
 WebSocket feed that exposes order-book state to any subscriber. The
@@ -72,12 +72,12 @@ These events are 99.4\% of the archive.
 The feed does not expose taker identity. The \texttt{change\_side}
 field labels which side of the book the level update applies to,
 not which side initiated the trade that produced the update. This
-distinction is the proximate cause of the measurement gap we
-document in Section~\ref{sec:limits}: an inference algorithm working
-from the feed alone cannot reliably reconstruct the aggressor sign
-because the underlying field never encodes it.
+distinction drives the measurement gap of Section~\ref{sec:limits}:
+an inference algorithm working from the feed alone cannot reliably
+reconstruct the aggressor sign because the underlying field never
+encodes it.
 
-\subsection{Why aggressor sign matters}
+\subsection{Aggressor-sign dependence of standard measures}
 
 Most direction-dependent microstructure measures take the form
 \begin{equation*}
@@ -90,23 +90,22 @@ where $\mathrm{sign}_t \in \{-1, +1\}$ is the aggressor sign for
 trade $t$ and $f$ is the per-trade contribution. Effective half-spread
 ($f = \mathrm{price}_t - \mathrm{mid}_t$), realized half-spread,
 Kyle's $\lambda$ regression coefficient, and the adverse-selection
-component of Glosten-Harris all instantiate this form. A noisy
-$\mathrm{sign}_t$ does not just attenuate $M$; depending on the
-distribution of $f$ across trades, it can flip the sign of $M$.
-This is why the 59\% sign-agreement rate documented in
-Section~\ref{ssec:sign-agreement} translates into the 67\% effective-
-spread and 60\% Kyle's $\lambda$ sign-flip rates we report on the
-top-100 panel.
+component of Glosten-Harris all instantiate this form. A noisy $\mathrm{sign}_t$ does not just attenuate $M$; depending on
+the distribution of $f$ across trades, it can flip the sign of $M$
+entirely. The 59\% sign-agreement rate of
+Section~\ref{ssec:sign-agreement} is what produces the 67\%
+effective-spread and 60\% Kyle's $\lambda$ sign-flip rates we report
+on the top-100 panel.
 
 \subsection{Comparison to equity-market microstructure}\label{ssec:equity-comparison}
 
-Several of our findings only acquire scale once they are placed
-against the equity-market benchmarks. \citet{ellis-michaely-ohara-2000}
-report that the Lee-Ready algorithm correctly classifies 81\% of
-trades on Nasdaq, and the original \citet{lee-ready-1991} study
-reports a similar accuracy on NYSE TAQ; the failure of feed-driven
-inference on Polymarket at $\sim 59\%$ is therefore around 22
-percentage points below the equity benchmark on the same algorithm.
+Equity-market benchmarks are what give several of our findings their
+scale. \citet{ellis-michaely-ohara-2000} report that the Lee-Ready
+algorithm correctly classifies 81\% of trades on Nasdaq, and the
+original \citet{lee-ready-1991} study reports a similar accuracy on
+NYSE TAQ; the $\sim 59\%$ feed-driven inference rate on Polymarket
+is therefore about 22 percentage points below the equity benchmark
+on the same algorithm.
 Effective half-spreads on liquid US equities post-decimalization sit
 in the single-digit-basis-point range
 \citep{hasbrouck-2007,foucault-pagano-roell-2013}; on Polymarket,

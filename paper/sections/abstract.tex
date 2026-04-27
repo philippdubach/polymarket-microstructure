@@ -21,8 +21,8 @@ of the time (volume-weighted across the top-100 stratum and four
 disjoint 7-day windows; 95\% bootstrap CI $[0.53, 0.68]$), barely
 above the 50\% chance baseline that direction-dependent microstructure
 measures need. Within the comparable subset of the top-100 panel,
-this manifests as a 67\% sign-flip rate on the effective half-spread
-and a 60\% sign-flip rate on Kyle's $\lambda$ between feed-inferred
-and on-chain estimates. Microstructure work on Polymarket therefore
+the effective half-spread changes sign on 67\% of markets when we
+swap feed-inferred trade direction for the on-chain record, and
+Kyle's $\lambda$ changes sign on 60\% of markets. Microstructure work on Polymarket therefore
 needs to source trade direction from on-chain \texttt{OrderFilled}
 events; we release a replication package that performs the join.

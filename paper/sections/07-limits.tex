@@ -70,18 +70,17 @@ panel.} Of 25 markets with both sources non-null and non-NaN, 15
 (60\%, Wilson 95\% CI $[0.41, 0.77]$) have STRICT and on-chain
 Kyle's $\lambda$ of opposite sign.
 
-These distributions replace the n=3 comparison reported in earlier
-versions of this paper. The artifact
-\texttt{artifacts/measures\_compare\_top100.parquet} contains the
-per-market panel. We note that only 24--31 of 100 top markets had
-both sources non-empty in the 7-day slice (the remainder had zero
-events on one side); the comparable-market subset is what supports
-the sign-flip rates above. Restricting the effective-spread
-comparison to markets with at least 100 STRICT trades raises the
-sign-flip rate from 67\% to 73\% (16/22, Wilson 95\% CI
-$[0.52, 0.87]$); the Kyle's $\lambda$ rate is essentially unchanged
-(59\% at the 100-bucket threshold). Small-sample selection on
-n_{\mathrm{strict}}$ does not generate the result.
+The artifact
+\texttt{artifacts/measures\_compare\_top100.parquet} carries the
+per-market panel behind these distributions. Only 24--31 of the 100
+top markets had both inference paths non-empty in the 7-day slice
+(the remainder had zero events on one side); the comparable-market
+subset is what supports the sign-flip rates above. Restricting the
+effective-spread comparison to markets with at least 100 STRICT
+trades pushes the sign-flip rate from 67\% to 73\% (16/22, Wilson
+95\% CI $[0.52, 0.87]$); the Kyle's $\lambda$ rate is essentially
+unchanged (59\% at the 100-bucket threshold). The pattern is not
+a small-sample selection artefact.
 
 \subsection{Implications for Polymarket microstructure research}\label{ssec:methodology}
 
@@ -125,15 +124,15 @@ the gap to the network-classifier estimates documented in
 wash-like activity that requires multi-counterparty graph
 classification rather than direct or one-step roundtrip detection.
 
-\textit{MEV as a confound for the buyer/seller asymmetry.}
+\textit{MEV as a confound on the buyer/seller asymmetry.}
 Polymarket settles on Polygon, whose mempool is publicly accessible
 to bots that can sandwich incoming orders, place runner trades, or
 execute related back-running strategies. We do not analyse mempool
-data in this paper, so the on-chain trade record we treat as ground
-truth includes whatever fills MEV bots produce on top of organic
-flow. The 60/40 seller/buyer asymmetry we observed in early panel
-work could reflect retail aggressor behaviour, MEV bot activity, or
-some mixture of the two. A within-market decomposition would
-require either Polygon mempool capture during the scrape window or
-a wallet-clustering approach against known MEV searchers; both are
-out of scope here and flagged for future work.
+data, so the on-chain trade record we treat as ground truth
+contains whatever fills MEV bots produce on top of organic flow.
+The 60/40 seller/buyer asymmetry across the panel is therefore
+consistent with retail aggressor behaviour, MEV bot activity, or
+some mixture of the two. Decomposing it would require Polygon
+mempool capture during the scrape window or a wallet-clustering
+approach against known MEV searchers; both are outside the scope
+of this paper.

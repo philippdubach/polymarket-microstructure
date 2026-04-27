@@ -7,10 +7,11 @@ questions: forecast accuracy, calibration against realised outcomes,
 the longshot bias, and the extent to which informed and uninformed
 traders coexist on the same venue
 \citep{wolfers-zitzewitz-2004,manski-2006,page-clemen-2013}.
-Microstructure determines the cost a participant pays per
-informational position and bounds how much the venue can aggregate;
-if a prediction market's microstructure is noisy, prices are noisier
-than the headline-level aggregation literature implicitly assumes.
+Yet microstructure is what determines the trading cost of holding an
+informational position, and the wider the cost, the smaller the
+informational signal that survives to the price. A prediction market
+with noisy microstructure produces noisier prices than the
+headline-level aggregation literature implicitly assumes.
 The microstructure of prediction markets, however, has remained
 under-studied: limit-order-book depth profiles, spread decompositions,
 and the behaviour of liquidity providers near resolution were largely
@@ -39,29 +40,28 @@ counterparties and the aggressor side. We use the off-chain feed for
 quote dynamics and the on-chain record for trade direction, and study
 both on a pre-registered, stratified 600-market panel.
 
-The empirical core of the paper is two findings, ordered here by
-which carries more weight for the literature.
+The paper has two empirical contributions, ordered by weight for the
+literature.
 
 \textit{Trade-direction inference from Polymarket's public feed is
-noise-dominated.} Direction-dependent microstructure measures
-(effective spread, realized spread, Kyle's $\lambda$, Amihud,
-Roll, Abdi-Ranaldo) need an aggressor sign for each trade, and
-empirical practice on equity venues sources that sign from a
-quote-driven feed via Lee-Ready or its variants
-\citep{lee-ready-1991,ellis-michaely-ohara-2000}. Polymarket's public
-feed does not expose enough information to do this reliably: the
-\texttt{change\_side} field marks which side of the book moved, not
-which side initiated the trade. We document the consequences. Sign
-agreement between feed-inferred and on-chain trade directions sits at
-$\sim 59\%$ volume-weighted across the top-100 stratum and four
-disjoint 7-day windows, just above the 50\% chance baseline. Within
-the comparable subset of the top-100 panel this propagates to a 67\%
-sign-flip rate on the effective half-spread and a 60\% sign-flip rate
-on Kyle's $\lambda$ between feed-inferred and on-chain estimates. Any
-microstructure result on Polymarket that depends on trade direction
-therefore needs to source that direction from on-chain
-\texttt{OrderFilled} events. We release a replication package that
-performs the join.
+noise-dominated.} Six standard direction-dependent measures
+(effective spread, realized spread, Kyle's $\lambda$, Amihud, Roll,
+Abdi-Ranaldo) need an aggressor sign for each trade, and empirical
+practice on equity venues sources that sign from a quote-driven feed
+via Lee-Ready or its variants
+\citep{lee-ready-1991,ellis-michaely-ohara-2000}. The Polymarket
+public feed does not expose enough information to do this reliably:
+the \texttt{change\_side} field marks which side of the book moved,
+not which side initiated the trade. Sign agreement between
+feed-inferred and on-chain trade directions sits at $\sim 59\%$
+volume-weighted across the top-100 stratum and four disjoint 7-day
+windows, just above the 50\% chance baseline. On the comparable
+subset of the top-100 panel, the effective half-spread changes sign
+on 67\% of markets when feed-inferred direction is swapped for the
+on-chain record, and Kyle's $\lambda$ changes sign on 60\%. Any
+Polymarket microstructure result that depends on trade direction
+therefore needs to source it from on-chain \texttt{OrderFilled}
+events. We release a replication package that performs the join.
 
 \textit{Eight cross-sectional stylized facts on the panel.} Quoted
 half-spread shows the longshot premium familiar from the racetrack
@@ -78,13 +78,12 @@ markets approach resolution at a within-category log-log slope of
 $0.55$. None of these eight facts requires the on-chain join, and
 each is reported on the full 600-market pre-registered panel.
 
-These two findings are complementary. The eight stylized facts
-characterise Polymarket's microstructure on its own terms; the
-methodological result establishes the conditions under which any
+The two contributions are complementary. The eight stylized facts
+characterise Polymarket's microstructure on its own terms. The
+measurement result sets the conditions under which any
 trade-direction-dependent statement about Polymarket can be trusted.
 
-The most surprising finding by some distance is the measurement
-result of Section~\ref{sec:limits}; readers focused on the
-empirical-asset side of the contribution will likely care most about
-SF1 (longshot premium), SF2 (depth concentration), and SF8 (depth
-decay near resolution).
+Section~\ref{sec:limits} carries the most counter-intuitive finding;
+readers more interested in Polymarket as an empirical object will
+care most about SF1 (longshot premium), SF2 (depth concentration),
+and SF8 (depth decay near resolution).

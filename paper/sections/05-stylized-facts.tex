@@ -61,16 +61,17 @@ boundaries by computing, per market, the share of events that fall
 within $\pm 100$\,ms of the nearest 2\,000\,ms grid point. Under a
 uniform-timing null this share is $0.10$.
 
-The panel-level distribution is concentrated around the null: median
+The panel-level distribution sits tight against the null: median
 \textbf{0.102} with interquartile range $[0.087, 0.110]$; only
 27 markets (4.5\%) lie above a 0.15 threshold. At the per-market
 level, however, a two-sided binomial test of $H_0$:~share~$=0.10$
-rejects in \textbf{351 of 600 markets} (58.5\%) at $\alpha=0.05$~--~a
-mechanical consequence of high event counts (millions of events make
-the binomial test sensitive to tiny deviations from 0.10). The
-economic-magnitude interpretation is that quote-timing does
-\emph{not} cluster on block boundaries to a meaningful degree, even
-though high-volume markets statistically reject the exact point null.
+rejects in \textbf{351 of 600 markets} (58.5\%) at $\alpha=0.05$.
+That high rejection rate is a mechanical consequence of large
+event counts: millions of events per market make the binomial test
+sensitive to tiny deviations from 0.10. The economic interpretation
+is that quote-timing does \emph{not} cluster on block boundaries to
+a meaningful degree, even though high-volume markets reject the
+exact point null statistically.
 
 \begin{figure}[htbp]
   \centering
@@ -205,18 +206,17 @@ and non-zero summary depth.
 \end{table}
 
 The bivariate slope is \textbf{0.818} (HC3 SE 0.113, $t=7.2$,
-$R^2 = 0.13$). Adding category fixed effects (Crypto, Sports, Other,
-Geopolitics) attenuates the slope to \textbf{0.550} (HC3 SE 0.143,
-$t=3.85$, $R^2=0.22$); roughly a third of the bivariate
-depth-decay association is category-level confounding. Adding log
-panel-window volume on top of category attenuates the slope further
-to \textbf{0.305} (HC3 SE 0.104, $t=2.94$, $R^2=0.49$). Volume
-absorbs much of the cross-sectional depth variation, but the
-time-to-close coefficient remains positive and significant. The
-$0.31$ slope corresponds to $\sim 6\%$ less mean depth per
-$10\times$ reduction in seconds-to-close, a smaller economic
-magnitude than either the bivariate or the category-FE specification
-suggested.
+$R^2 = 0.13$). Category fixed effects (Crypto, Sports, Other,
+Geopolitics) attenuate the slope to \textbf{0.550} (HC3 SE 0.143,
+$t=3.85$, $R^2=0.22$): roughly a third of the bivariate association
+is category-level confounding. Adding log panel-window volume on top
+of category attenuates further to \textbf{0.305} (HC3 SE 0.104,
+$t=2.94$, $R^2=0.49$). Volume absorbs much of the cross-sectional
+depth variation, but the time-to-close coefficient stays positive
+and significant. A 0.31 slope works out to $\sim 6\%$ less mean
+depth per $10\times$ reduction in seconds-to-close, a smaller
+economic magnitude than the bivariate or the category-FE
+specification implied.
 
 \begin{figure}[htbp]
   \centering

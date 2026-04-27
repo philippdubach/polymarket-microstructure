@@ -1,11 +1,5 @@
 \section{Data Construction}\label{sec:dataconstruction}
 
-This section describes the engineering pipeline behind the dataset
-that Section~\ref{sec:data} characterises empirically. The
-distinction between the two sections is deliberate: §3 covers how
-the data were collected and reconciled; §4 describes what they
-contain.
-
 \subsection{Off-chain orderbook archive}
 
 The off-chain feed was captured via a long-running collector that
@@ -28,11 +22,11 @@ the events that survive market-id and time-window filters.
 
 \subsection{On-chain trade scrape}
 
-The on-chain side scrapes \texttt{OrderFilled} events from the CTF
-Exchange V1 contract over the 28-day calibration window
-(2026-02-28 to 2026-03-27). The scraper is implemented as
-batched \texttt{eth\_getLogs} calls against a Polygon RPC provider,
-with adaptive chunk sizing to navigate provider-specific rate limits
+We scrape \texttt{OrderFilled} events from the CTF Exchange V1
+contract across the 28-day calibration window (2026-02-28 to
+2026-03-27). The scraper issues batched \texttt{eth\_getLogs} calls
+against a Polygon RPC provider, with adaptive chunk sizing that
+respects provider-specific rate limits
 (\texttt{scripts/scrape\_onchain\_fills.py}). Each call returns at
 most a few hundred events; total fills across the window are
 255{,}425{,}405. The scraper writes one Parquet shard per
@@ -72,21 +66,19 @@ markets and is not the right source for this join.
 
 \subsection{Pre-registration of the panel}
 
-The 600-market panel is the principal cross-sectional unit of the
-paper. We commit the selection rule before computing the panel.
-The pre-registration document
+The 600-market panel is the cross-sectional unit on which the
+empirical work runs. We commit the selection rule before computing
+the panel. The pre-registration document
 (\texttt{docs/preregistration\_plan3c.md}) specifies the volume
 metric, the random-stratum eligibility threshold, the random seed,
-and the categorisation scheme used for SF5. The panel is then
-computed by a single deterministic script
-(\texttt{scripts/build\_panel.py}) and the resulting parquet is
-hashed into the pre-registration document, creating a one-way
-dependency from the rule set to the realised panel.
+and the categorisation scheme used for SF5. A deterministic build
+script (\texttt{scripts/build\_panel.py}) emits the panel parquet,
+whose SHA-256 is recorded back into the pre-registration document
+before any analysis runs.
 
-This discipline is heavier than is conventional in empirical
-microstructure work, but the cost is small (a single document plus
-a hash) and the benefit is large: any reader can verify that no
-market was added or removed after the analysis ran.
+This discipline goes beyond the empirical-microstructure norm; the
+cost is one document and one hash, the benefit is that a reader can
+verify no market was added or removed after the analysis ran.
 
 \subsection{Replication package}
 
