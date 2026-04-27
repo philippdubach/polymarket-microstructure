@@ -19,10 +19,11 @@ TradeSports surveyed by \citet{wolfers-zitzewitz-2004}. The direction
 is the same; the magnitude is not. Racetrack longshot premia are
 typically a few percent of stake, and prediction-market longshot
 biases observed on IEM and TradeSports run in the same range. The
-1{,}300--1{,}800\,bps half-spread on Polymarket's lowest-probability
-decile is an order of magnitude wider, which reads less like the
-classical risk-love or misperception story and more like a
-liquidity-provision constraint: low-probability binary contracts
+1{,}300--1{,}800\,bps full quoted spread on Polymarket's lowest-
+probability decile (i.e., 650--900\,bps half-spread) is an order
+of magnitude wider, which reads less like the classical risk-love
+or misperception story and more like a liquidity-provision
+constraint: low-probability binary contracts
 have a bounded upside and an asymmetric downside for the maker, so
 the inventory-risk premium on the wide side is mechanically larger
 than on a continuous-payoff sportsbook market. Distinguishing
@@ -240,13 +241,16 @@ depth variation, but the time-to-close coefficient stays positive
 and significant. A 0.31 slope works out to $\sim 6\%$ less mean
 depth per $10\times$ reduction in seconds-to-close, a smaller
 economic magnitude than the bivariate or the category-FE
-specification implied. We treat the category + log-volume
-specification as the conservative reading: volume mediates the
+specification implied. The category + log-volume
+specification is the conservative reading. Volume mediates the
 depth-time relationship because markets active longer accumulate
 more makers, and more makers means more depth, so a regression that
 omits volume attributes the makers-and-time channel to time alone.
-The headline 0.305 coefficient is the residual depth decay after
-that mediation is netted out.
+The 0.305 coefficient is the residual depth decay after that
+mediation is netted out; the 0.550 within-category slope reported in
+the abstract and intro is the figure before mediation is netted out
+and is the appropriate one to compare to a literature that does not
+condition on volume.
 
 \begin{figure}[htbp]
   \centering
