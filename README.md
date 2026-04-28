@@ -1,5 +1,6 @@
 # polymarket-microstructure
 
+[![arXiv](https://img.shields.io/badge/arXiv-2604.24366-b31b1b.svg)](https://arxiv.org/abs/2604.24366)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19811426.svg)](https://doi.org/10.5281/zenodo.19811426)
 
 Replication package for *The Anatomy of a Decentralized Prediction Market: Microstructure Evidence from the Polymarket Order Book.*
@@ -84,12 +85,24 @@ Re-running the full pipeline from raw data takes several hours of compute and as
 
 ```
 Dubach, Philipp D. (2026). The Anatomy of a Decentralized Prediction Market:
-Microstructure Evidence from the Polymarket Order Book. Working Paper.
-https://github.com/philippdubach/polymarket-microstructure
-DOI: 10.5281/zenodo.19811426
+Microstructure Evidence from the Polymarket Order Book. arXiv preprint
+arXiv:2604.24366. https://arxiv.org/abs/2604.24366
+Replication package: https://github.com/philippdubach/polymarket-microstructure
+Replication DOI: 10.5281/zenodo.19811426
 ```
 
 ```bibtex
+@misc{dubach-2026-anatomy,
+  author        = {Dubach, Philipp D.},
+  title         = {The Anatomy of a Decentralized Prediction Market:
+                   Microstructure Evidence from the Polymarket Order Book},
+  year          = {2026},
+  eprint        = {2604.24366},
+  archivePrefix = {arXiv},
+  primaryClass  = {q-fin.TR},
+  url           = {https://arxiv.org/abs/2604.24366},
+}
+
 @misc{dubach-2026-replication,
   author    = {Dubach, Philipp D.},
   title     = {Replication package: The Anatomy of a Decentralized
@@ -101,8 +114,6 @@ DOI: 10.5281/zenodo.19811426
   url       = {https://doi.org/10.5281/zenodo.19811426},
 }
 ```
-
-A separate BibTeX entry for the working paper itself will be added once the manuscript has a stable arXiv or SSRN ID.
 
 ---
 
